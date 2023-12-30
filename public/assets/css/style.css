@@ -8781,3 +8781,19 @@ blockquote p:last-child {
 .more a:hover {
     color:#c4302b !important;
 }
+.swiper-pagination-bullet {
+    width: 30px !important;
+    height: 6px !important;
+    border-radius: 10px !important;
+    background: #f1304a !important;
+  }
+  .add_wishlist.active {
+    color: #c41200;
+  }
+  .wish_btn.active {
+    background-color: #c41200;
+    color: #fff;
+  }
+  td {
+    vertical-align: middle;
+  }

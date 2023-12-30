@@ -1,56 +1,62 @@
 <template>
     <main class="wishlist_wrapper">
-        <div class="page-head">
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>Wishlist</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">Wishlist</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div>
+        <div class="main_content">
+
+        <!-- START SECTION SHOP -->
+        <div class="section">
             <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'Wishlist' : 'المفضلة' }}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive wishlist_table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-add-to-cart"></th>
+                                        <th class="product-remove">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-if="wishlist && wishlist.length > 0">
+                                    <tr  v-for="item in wishlist" :key="item.id">
+                                        <td class="product-thumbnail"><a :href="'/product/' + item.id" target="_blank"><img :src="item.first_image" alt="product1"></a></td>
+                                        <td class="product-name" data-title="Product"><a :href="'/product/' + item.id" target="_blank">{{item.name}}</a></td>
+                                        <td class="product-price" data-title="Price">{{ item.sale_price ? item.sale_price : item.regular_price }} EGP</td>
+                                        <td class="product-add-to-cart"><a href="#" @click.prevent="addProductToCart(item.id, 1)" class="btn btn-fill-out"><i class="icon-basket-loaded"></i> Add to Cart</a></td>
+                                        <td class="product-remove" data-title="Remove"><a href="#" @click.prevent="removeProductFromWishlist(item.id)"><i class="ti-close"></i></a></td>
+                                    </tr>
+                                </tbody>
+                                <tbody v-if="!wishlist || wishlist.length == 0">
+                                    <td colspan="6" style="text-align: center;padding: 10px;">Your wishlist is Empty</td>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="container">
-            <h1  v-if="wishlist && wishlist.length > 0">{{ lang == 'en' ? 'My Wishlist' : 'المفضلة لدي' }}</h1>
-            <div class="table_wrapper" v-if="wishlist && wishlist.length > 0">
-                <table>
-                    <tbody>
-                        <tr v-for="product in wishlist" :key="product.id" >
-                            <td><div class="head" @click="product.product_type == 1 ? this.$router.push(`/product/${product.id}`) : this.$router.push(`/card/${product.id}`)"><img :src="product.product_type == 1 ? product.main_image : product.img"> 
-                                <p class="prod-name">
-                                    {{ product.name.length >= 39 ? product.name.slice(0, 39) + '...' : product.name }}
-                                    <span class="hint-pop-up" v-if="product && product.name.length > 39">{{ product.name }}</span>
-                                </p>
-                            </div>
-                            </td>
-                            <td>
-                                <div class="price">
-                                    <span>{{ lang == 'en' ? 'Price' : 'السعر' }}</span>
-                                    <p>{{ product.price_after_discount ? product.price_after_discount.toLocaleString() : product.price.toLocaleString() }} {{ lang == 'en' ? 'EGP' : 'جنيه' }}</p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="stock">
-                                    <span>{{ lang == 'en' ? 'Stock Status' : 'الكمية المتوفرة' }}</span>
-                                    <p class="stock" :class="product.type == 0 ? 'in' : (product.type == 1 ? 'managed' : 'out')">{{ product.type == 0 ? (lang == 'en' ? "In Stock" : "متاح")  : (product.type == 1 ? (lang == 'en' ? "Limited Stock" : "كمية محدودة") : (lang == 'en' ? "Out Of Stock" : "نفذت الكمية")) }}</p>
-                                    </div>
-                            </td>
-                            <td>
-                                <div class="add_to_cart">
-                                    <button style="cursor: pointer" @click="
-                                        (product.product_type == 1 ?
-                                            addProductToCart(product.id, 1, product.stock, product.type)
-                                            :
-                                            addCardToCart(product.id, 1
-                                            ))
-                                        "><i class="fa-solid fa-cart-shopping"></i> <span>{{ lang == 'en' ? 'Add To Cart' : 'اضافة الى العربة' }}</span></button>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="remove">
-                                    <button @click="product.product_type == 1 ? removeProductFromWishlist(product.id) : removeCardFromWishlist(product.id)"><i class="fa fa-close"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h1 v-if="!wishlist || wishlist.length == 0"  style="width:100%;margin: 5rem 0px; text-align: center; color: rgb(113, 113, 113);">{{ lang == 'en' ? 'Your Wishlist is Empty' : 'المفضلة فارغة' }}</h1>
+        <!-- END SECTION SHOP -->
+
         </div>
     </main>
 </template>
@@ -74,7 +80,7 @@ export default {
         async getWishlist() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/liked`,
+                const response = await axios.get(`https://becleopatra.com/api/users/favourites/getAll`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -84,15 +90,11 @@ export default {
                 );
                 if (response.data.status === true) {
                     $('.loader').fadeOut()
-                    this.products = response.data.data.products.products
+                    this.products = response.data.data
                     for (let i = 0; i < this.products.length; i++) {
                         this.products[i].product_type = 1;
                     }
-                    this.cards = response.data.data.cards.cards
-                    for (let i = 0; i < this.cards.length; i++) {
-                        this.cards[i].product_type = 2;
-                    }
-                    this.wishlist = this.products.concat(this.cards)
+                    this.wishlist = this.products
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -126,10 +128,10 @@ export default {
                 console.error(error);
             }
         },
-        async addCardToCart(product_id, qty) {
+        async addProductToCart(product_id, qty,) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/cards/${product_id}/add-cart`, {
+                const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                     qty: qty,
                     type: 'add',
                 },
@@ -148,157 +150,19 @@ export default {
                     document.getElementById('errors').append(error)
                     $('#errors').fadeIn('slow')
                     setTimeout(() => {
-                        $('.loader').fadeOut()
                         $('#errors').fadeOut('slow')
-                    }, 500);
+                        $('.loader').fadeOut()
+                        if (!this.cart || !this.cart.length) {
+                            window.location.reload()
+                        }
+                    }, 1000);
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'error'
-                    error.innerHTML = response.data.errors[0] == "quantity is not available" || response.data.errors[0] == "الكمية المطلوبة غير متوفرة" ? (this.lang == "ar" ? "نفذت الكمية" : "Quantity not avilable") : (this.lang == "ar" ? "يجب عليك تسجيل الدخول اولا" :  "You have to login first!" )
-                    document.getElementById('errors').append(error)
-                    $('#errors').fadeIn('slow')
-                    
-                    setTimeout(() => {
-                        $('input').css('outline', 'none')
-                        $('#errors').fadeOut('slow')
-                    }, 3500);
-                }
-
-            } catch (error) {
-                document.getElementById('errors').innerHTML = ''
-                let err = document.createElement('div')
-                err.classList = 'error'
-                err.innerHTML = 'server error try again later'
-                document.getElementById('errors').append(err)
-                $('#errors').fadeIn('slow')
-                $('.loader').fadeOut()
-
-                setTimeout(() => {
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-
-                console.error(error);
-            }
-        },
-        async addProductToCart(product_id, qty, product_valid_qty, product_stock) {
-            if (product_stock == 2) {
-                document.getElementById('errors').innerHTML = ''
-                let error = document.createElement('div')
-                error.classList = 'error'
-                error.innerHTML = 'This product is not available now'
-                document.getElementById('errors').append(error)
-                $('#errors').fadeIn('slow')
-
-                setTimeout(() => {
-                    $('input').css('outline', 'none')
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-
-            } else if (product_valid_qty < qty && product_stock == 1) {
-                document.getElementById('errors').innerHTML = ''
-                let error = document.createElement('div')
-                error.classList = 'error'
-                error.innerHTML = 'This quantity is not available'
-                document.getElementById('errors').append(error)
-                $('#errors').fadeIn('slow')
-
-                setTimeout(() => {
-                    $('input').css('outline', 'none')
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-            } else {
-                $('.loader').fadeIn().css('display', 'flex')
-                try {
-                    const response = await axios.post(`https://api.egyptgamestore.com/api/products/${product_id}/add-cart`, {
-                        qty: qty,
-                        type: 'add',
-                    },
-                        {
-                            headers: {
-                                "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                                "lang": this.lang
-                            }
-                        },
-                    );
-                    if (response.data.status === true) {
-                        document.getElementById('errors').innerHTML = ''
-                        let error = document.createElement('div')
-                        error.classList = 'success'
-                        error.innerHTML = response.data.message
-                        document.getElementById('errors').append(error)
-                        $('#errors').fadeIn('slow')
-                        setTimeout(() => {
-                            $('#errors').fadeOut('slow')
-                            $('.loader').fadeOut()
-                            if (!this.cart || !this.cart.length) {
-                                window.location.reload()
-                            }
-                        }, 1000);
-                    } else {
-                        $('.loader').fadeOut()
-                        document.getElementById('errors').innerHTML = ''
                         let error = document.createElement('div')
                         error.classList = 'error'
                         error.innerHTML = response.data.errors[0] == "quantity is not available" || response.data.errors[0] == "الكمية المطلوبة غير متوفرة" ? (this.lang == "ar" ? "نفذت الكمية" : "Quantity not avilable") : (this.lang == "ar" ? "يجب عليك تسجيل الدخول اولا" :  "You have to login first!" )
                         document.getElementById('errors').append(error)
-                        $('#errors').fadeIn('slow')
-
-                        setTimeout(() => {
-                            $('input').css('outline', 'none')
-                            $('#errors').fadeOut('slow')
-                        }, 3500);
-                    }
-
-                } catch (error) {
-                    document.getElementById('errors').innerHTML = ''
-                    let err = document.createElement('div')
-                    err.classList = 'error'
-                    err.innerHTML = 'server error try again later'
-                    document.getElementById('errors').append(err)
-                    $('#errors').fadeIn('slow')
-                    $('.loader').fadeOut()
-
-                    setTimeout(() => {
-                        $('#errors').fadeOut('slow')
-                    }, 3500);
-
-                    console.error(error);
-                }
-            }
-        },
-        async removeProductFromWishlist(product_id) {
-            $('.loader').fadeIn().css('display', 'flex')
-            try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/products/${product_id}/liked`, {
-                },
-                    {
-                        headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": this.lang
-                        }
-                    },
-                );
-                if (response.data.status === true) {
-                    document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'success'
-                    error.innerHTML = response.data.message
-                    document.getElementById('errors').append(error)
-                    this.getWishlist()
-                    setTimeout(() => {
-                        $('.loader').fadeOut()
-                    }, 200);
-                } else {
-                    $('.loader').fadeOut()
-                    document.getElementById('errors').innerHTML = ''
-                    $.each(response.data.errors, function (key, value) {
-                        let error = document.createElement('div')
-                        error.classList = 'error'
-                        error.innerHTML = value
-                        document.getElementById('errors').append(error)
-                    });
                     $('#errors').fadeIn('slow')
                     
                     setTimeout(() => {
@@ -322,11 +186,12 @@ export default {
 
                 console.error(error);
             }
+
         },
-        async removeCardFromWishlist(product_id) {
+        async removeProductFromWishlist(product_id) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/cards/${product_id}/liked`, {
+                const response = await axios.post(`https://becleopatra.com/api/users/favourites/addOrRemoveProduct?product_id=${product_id}`, {
                 },
                     {
                         headers: {

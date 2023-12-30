@@ -1,103 +1,76 @@
 <template>
     <main class="card_wrapper">
-        <div class="page-head">
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>My Cart</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">My Cart</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div> 
+        <div class="main_content">
+
+        <!-- START SECTION SHOP -->
+        <div class="section">
             <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'Cart' : 'عربة المنتجات' }}
-            </div>
-        </div>
-        <div class="container">
-            <div class="table_wrapper"  v-if="cart && cart.length > 0">
-                <table>
-                    <tbody>
-                        <tr v-for="product in cart" :key="product.id">
-                            <td>
-                                <div class="head"
-                                    @click="product.product_type == 1 ? this.$router.push(`/product/${product.id}`) : this.$router.push(`/card/${product.id}`)">
-                                    <img :src="product.product_type == 1 ? product.img : product.img">
-                                    <p class="prod-name">
-                                        {{ product.name.length >= 20 ? product.name.slice(0, 20) + '...' : product.name }}
-                                        <span class="hint-pop-up" v-if="product && product.name.length > 39">{{ product.name }}</span>
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="price">
-                                    <span>{{ cart_data.price }}</span>
-                                    <p>{{ product.price_after_discount ? product.price_after_discount.toLocaleString() : product.price.toLocaleString() }} {{ cart_data.egp }}
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="qty">
-                                    <span>{{cart_data.qty}}</span>
-                                    <div>
-                                        <span @click="
-                                        (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) > 1 ?
-                                            (product.product_type == 1 ?
-                                                addProductToCart(product.id,
-                                                    (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) - 1
-                                                )
-                                            : 
-                                            addCardToCart(product.id, 
-                                                (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) - 1
-                                            ))
-                                        :
-                                        ''
-                                        ">
-                                            <i class="fa fa-minus"></i>
-                                        </span> 
-                                        {{ product.product_type == 1 ? quantities[`product_${product.id}`] :  quantities[`card_${product.id}`] }} 
-                                        <span @click="
-                                            (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) > 0 ?
-                                                (product.product_type == 1 ?
-                                                    addProductToCart(product.id,
-                                                        (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) + 1
-                                                    )
-                                                    :
-                                                    addCardToCart(product.id,
-                                                        (product.product_type == 1 ? quantities[`product_${product.id}`] : quantities[`card_${product.id}`]) + 1
-                                                    ))
-                                                :
-                                                ''
-                                            ">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </span>
-                                        </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="total">
-                                    <span>{{ cart_data.total }}</span>
-                                    <p >{{ product.total_price.toLocaleString() }}</p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="remove">
-                                    <button @click="
-                                        (product.product_type == 1 ?
-                                            deleteProductToCart(product.id)
-                                            :
-                                            deleteCardToCart(product.id)
-                                        )
-                                    "><i class="fa fa-close"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="total" v-if="cart && cart.length > 0">
-                <div class="head">
-                    {{ cart_data.cart_total }}
-                </div>
-                <div class="bottom">
-                    <h4>{{ cart_data.total }} <span>{{total.toLocaleString() }} {{ cart_data.egp }}</span></h4>
-                    <button @click="this.$router.push('/checkout')">{{ cart_data.checkout }}</button>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive My Cart_table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-stock-status">Total Prices</th>
+                                        <th class="product-remove">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-if="cart && cart.length > 0">
+                                    <tr v-for="item in cart" :key="item.id">
+                                        <td class="product-thumbnail"><a :href="'/product/' + item.id" target="_blank"><img :src="item.first_image" alt="product1"></a></td>
+                                        <td class="product-name" data-title="Product"><a :href="'/product/' + item.id" target="_blank">{{item.name}}</a></td>
+                                        <td class="product-price" data-title="Price">{{ item.piece_price }} EGP</td>
+                                        <td>
+                                            <div class="cart-product-quantity">
+                                                <div class="quantity">
+                                                    <input type="button" value="-" class="minus" @click="quantities[`product_${item.id}`]  > 1 ? quantities[`product_${item.id}`]  -= 1 : '';updateQty(item.id, quantities[`product_${item.id}`] )">
+                                                    <input type="text" name="quantity" title="Qty" class="qty" size="4" v-model="quantities[`product_${item.id}`] ">
+                                                    <input type="button" value="+" class="plus" @click="quantities[`product_${item.id}`]  += 1;updateQty(item.id, quantities[`product_${item.id}`] )">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="product-price" data-title="Price">{{item.quantity_price}} EGP</td>
+                                        <td class="product-remove" data-title="Remove"><a href="#" @click.prevent="deleteProductToCart(item.id)"><i class="ti-close"></i></a></td>
+                                    </tr>
+                                </tbody>
+                                <tbody v-if="!cart || cart.length == 0">
+                                    <td colspan="6" style="text-align: center;padding: 10px;">Your Cart is Empty</td>
+                                </tbody>
+                            </table>
+                            <div  v-if="cart && cart.length > 0" style="display: flex; justify-content: space-between;">
+                                <div><h4>Total: {{ total }}</h4></div>
+                                <div><router-link to="/checkout" class="btn btn-fill-out" style="float: right;">Checkout</router-link></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <h1 v-if="!cart || cart.length == 0"  style="width:100%;margin: 5rem 0px; text-align: center; color: rgb(113, 113, 113);">{{ cart_data.empty }}</h1>
         </div>
-        <div class="hide-content" v-if="showMsgPopUp"></div>
+        <!-- END SECTION SHOP -->
+
+        </div>
+       <div class="hide-content" v-if="showMsgPopUp"></div>
         <div class="pop-up" v-if="showMsgPopUp">
             {{ cart_data.changes_msg }}
             <span>{{ cart_data.changes_span }}</span>
@@ -176,7 +149,7 @@ export default {
         async getCart(lang) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/cart`,
+                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -186,186 +159,11 @@ export default {
                 );
                 if (response.data.status === true) {
                     $('.loader').fadeOut()
-                    this.showMsgPopUp = response.data.data.is_cart_updated
-                    this.total = response.data.data.total
-                    this.products = response.data.data.products
-                    
-                    for (let i = 0; i < this.products.length; i++) {
-                        this.products[i].product_type = 1;
-                        this.quantities[`product_${this.products[i].id}`] = this.products[i].qty
+                    this.total = response.data.data.sub_total
+                    this.cart = response.data.data.products
+                    for (let i = 0; i < this.cart.length; i++) {
+                        this.quantities[`product_${this.cart[i].id}`] = this.cart[i].qty
                     }
-                    this.cards = response.data.data.cards
-                    for (let i = 0; i < this.cards.length; i++) {
-                        this.cards[i].product_type = 2;
-                        this.quantities[`card_${this.cards[i].id}`] = this.cards[i].qty
-                    }
-                    this.cart = this.products.concat(this.cards)
-                } else {
-                    $('.loader').fadeOut()
-                    document.getElementById('errors').innerHTML = ''
-                    $.each(response.data.errors, function (key, value) {
-                        let error = document.createElement('div')
-                        error.classList = 'error'
-                        error.innerHTML = value
-                        document.getElementById('errors').append(error)
-                    });
-                    $('#errors').fadeIn('slow')
-                    
-                    setTimeout(() => {
-                        $('input').css('outline', 'none')
-                        $('#errors').fadeOut('slow')
-                    }, 3500);
-                }
-
-            } catch (error) {
-                document.getElementById('errors').innerHTML = ''
-                let err = document.createElement('div')
-                err.classList = 'error'
-                err.innerHTML = 'server error try again later'
-                document.getElementById('errors').append(err)
-                $('#errors').fadeIn('slow')
-                $('.loader').fadeOut()
-
-                setTimeout(() => {
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-
-                console.error(error);
-            }
-        },
-        async addCardToCart(product_id, qty) {
-            try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/cards/${product_id}/add-cart`, {
-                    qty: qty,
-                    type: 'update',
-                },
-                    {
-                        headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
-                        }
-                    },
-                );
-                if (response.data.status === true) {
-                    document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'success'
-                    error.innerHTML = response.data.message
-                    document.getElementById('errors').append(error)
-                    setTimeout(() => {
-                        $('.loader').fadeOut()
-                        this.getCart()
-                    }, 0);
-                } else {
-                    $('.loader').fadeOut()
-                    document.getElementById('errors').innerHTML = ''
-                    $.each(response.data.errors, function (key, value) {
-                        let error = document.createElement('div')
-                        error.classList = 'error'
-                        error.innerHTML = value
-                        document.getElementById('errors').append(error)
-                    });
-                    $('#errors').fadeIn('slow')
-                    
-                    setTimeout(() => {
-                        $('input').css('outline', 'none')
-                        $('#errors').fadeOut('slow')
-                    }, 3500);
-                }
-
-            } catch (error) {
-                document.getElementById('errors').innerHTML = ''
-                let err = document.createElement('div')
-                err.classList = 'error'
-                err.innerHTML = 'server error try again later'
-                document.getElementById('errors').append(err)
-                $('#errors').fadeIn('slow')
-                $('.loader').fadeOut()
-
-                setTimeout(() => {
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-
-                console.error(error);
-            }
-        },
-        async addProductToCart(product_id, qty) {
-            try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/products/${product_id}/add-cart`, {
-                    qty: qty,
-                    type: 'update',
-                },
-                    {
-                        headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
-                        }
-                    },
-                );
-                if (response.data.status === true) {
-                    document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'success'
-                    error.innerHTML = response.data.message
-                    document.getElementById('errors').append(error)
-                    setTimeout(() => {
-                        $('.loader').fadeOut()
-                        this.getCart()
-                    }, 0);
-                } else {
-                    $('.loader').fadeOut()
-                    document.getElementById('errors').innerHTML = ''
-                    $.each(response.data.errors, function (key, value) {
-                        let error = document.createElement('div')
-                        error.classList = 'error'
-                        error.innerHTML = value
-                        document.getElementById('errors').append(error)
-                    });
-                    $('#errors').fadeIn('slow')
-                    
-                    setTimeout(() => {
-                        $('input').css('outline', 'none')
-                        $('#errors').fadeOut('slow')
-                    }, 3500);
-                }
-
-            } catch (error) {
-                document.getElementById('errors').innerHTML = ''
-                let err = document.createElement('div')
-                err.classList = 'error'
-                err.innerHTML = 'server error try again later'
-                document.getElementById('errors').append(err)
-                $('#errors').fadeIn('slow')
-                $('.loader').fadeOut()
-
-                setTimeout(() => {
-                    $('#errors').fadeOut('slow')
-                }, 3500);
-
-                console.error(error);
-            }
-        },
-        async deleteCardToCart(product_id) {
-            $('.loader').fadeIn()
-            try {
-                const response = await axios.delete(`https://api.egyptgamestore.com/api/cards/${product_id}/delete-cart`,
-                    {
-                        headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
-                        }
-                    },
-                );
-                if (response.data.status === true) {
-                    document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'success'
-                    error.innerHTML = response.data.message
-                    document.getElementById('errors').append(error)
-                    setTimeout(() => {
-                        $('.loader').fadeOut()
-                        if (this.cart.length == 1)
-                            window.location.reload()
-                        else
-                        this.getCart()
-                    }, 2000);
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -402,7 +200,7 @@ export default {
         async deleteProductToCart(product_id) {
             $('.loader').fadeIn()
             try {
-                const response = await axios.delete(`https://api.egyptgamestore.com/api/products/${product_id}/delete-cart`,
+                const response = await axios.delete(`https://becleopatra.com/api/users/carts/deleteProductFromCart?product_id=${product_id}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -422,6 +220,51 @@ export default {
                         else
                             this.getCart()
                     }, 2000);
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                document.getElementById('errors').innerHTML = ''
+                let err = document.createElement('div')
+                err.classList = 'error'
+                err.innerHTML = 'server error try again later'
+                document.getElementById('errors').append(err)
+                $('#errors').fadeIn('slow')
+                $('.loader').fadeOut()
+
+                setTimeout(() => {
+                    $('#errors').fadeOut('slow')
+                }, 3500);
+
+                console.error(error);
+            }
+        },
+        async updateQty(product_id, qty) {
+            try {
+                const response = await axios.put(`https://becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`,
+                {},
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
+                        }
+                    },
+                );
+                if (response.data.status === true) {
+                    console.log('');
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''

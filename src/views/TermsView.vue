@@ -1,7 +1,29 @@
 <template>
-    <main class="register_wrapper">
-        <div class="container">
-            <div class="terms_wrapper"></div>
+    <main>
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>Terms And Conditions</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">Terms And Conditions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div>
+        <div class="main-content">
+            <div class="section">
+                <div class="container">
+                    <div class="terms_wrapper"></div>
+                </div>
+            </div>
         </div>
     </main>
 </template>
@@ -25,7 +47,7 @@ export default {
         async getTerms() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/terms`,
+                const response = await axios.get(`https://becleopatra.com/api/settings/termsAndConditions`,
                 {
                     headers: {
                         "lang": this.lang

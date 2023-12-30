@@ -261,7 +261,7 @@ export default {
         async getCart(lang) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/cart`,
+                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -320,7 +320,7 @@ export default {
         async getCartPrice() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/cart/price?shipping_method=${this.shipping_method}`,
+                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails/price?shipping_method=${this.shipping_method}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -488,7 +488,7 @@ export default {
         },
         async checkCoupon(code, shipping_method) {
             try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/users/cart/coupons/check`,
+                const response = await axios.post(`https://becleopatra.com/api/users/carts/getCartDetails/coupons/check`,
                     {
                         code: code,
                         shipping_method: shipping_method

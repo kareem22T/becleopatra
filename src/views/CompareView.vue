@@ -1,60 +1,73 @@
 <template>
     <main class="wishlist_wrapper">
-        <div class="page-head">
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>Compare</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">Compare</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div>
+        <div class="main_content">
+
+        <!-- START SECTION SHOP -->
+        <div class="section">
             <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i
-                    :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ?
-                        'Compare' : 'المقارنة' }}
+                <div class="row" v-if="compare && compare.length">
+                    <div class="col-md-12">
+                        <div class="compare_box">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center">
+                                <tbody>
+                                    <tr class="pr_image" >
+                                        <td class="row_title">{{ lang == 'en' ? 'Product' : 'المنتج' }}</td>
+                                        <td class="row_img" v-for="product in compare" :key="product.id"><img :src="product.first_image" alt="compare-img"></td>
+                                    </tr>
+                                    <tr class="pr_title">
+                                        <td class="row_title">Product Name</td>
+                                        <td class="product_name" v-for="product in compare" :key="product.id"><a href="shop-product-detail.html">{{ product.name }}</a></td>
+                                    </tr>
+                                    <tr class="pr_price">
+                                        <td class="row_title">{{ lang == 'en' ? 'Price' : 'السعر' }}</td>
+                                        <td v-for="product in compare" :key="product.id" class="product_price"><span class="price">{{ product.sale_price ? product.sale_price : product.regular_price }} EGP</span></td>
+                                    </tr>
+                                    <tr class="pr_add_to_cart">
+                                        <td class="row_title">{{ lang == 'en' ? 'Add To Cart' : 'اضافة الي العربة' }}</td>
+                                        <td class="row_btn" v-for="product in compare" :key="product.id"><a href="#" class="btn btn-fill-out" @click="
+                                        addProductToCart(product.id, 1)"><i class="icon-basket-loaded"></i> Add To Cart</a></td>
+                                    </tr>
+                                    <tr class="description">
+                                        <td class="row_title">{{ lang == 'en' ? 'Description' : 'الوصف' }}</td>
+                                        <td class="row_text" v-for="product in compare" :key="product.id"><p>{{product.desc}} </p></td>
+                                    </tr>
+                                    <tr class="pr_remove">
+                                        <td class="row_title"></td>
+                                        <td class="row_remove"  v-for="product in compare" :key="product.id">
+                                            <a href="#" @click.prevent="removeProductFromCompare(product.id)"><span>Remove</span> <i class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1 v-if="!compare || compare.length == 0"  style="width:100%;margin: 5rem 0px; text-align: center; color: rgb(113, 113, 113);">{{ lang == 'en' ? 'There are no products added to compare' : 'لا توجد منتجات مضافة للمقارنة' }}</h1>
             </div>
         </div>
-        <div class="container">
-            <div class="table_wrapper compare_wrapper" v-if="compare && compare.length > 0">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Product' : 'المنتج' }}</td>
-                            <td v-for="product in compare" :key="product.id"><img style="width: clamp(9.375rem, calc(4.375rem + 10vw), 12.5rem);" :src="product.main_image"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Price' : 'السعر' }}</td>
-                            <td v-for="product in compare" :key="product.id">
-                                <div class="price">
-                                    <h1 v-if="product.price_after_discount">{{ product.price_after_discount ? product.price_after_discount.toLocaleString() : '' }} <span>{{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</span></h1>
-                                    <h1><span>{{ product.price.toLocaleString() }}</span> <span>{{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</span></h1>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Availability' : 'التوفر' }}</td>
-                            <td v-for="product in compare" :key="product.id">
-                                <p class="stock" :class="product.type == 0 ? 'in' : (product.type == 1 ? 'managed' : 'out')">{{ product.type == 0 ? (lang == 'en' ? "In Stock" : "متاح") : (product.type == 1 ? (lang == 'en' ? "Limited Stock" : "كمية محدودة") : (lang == 'en' ? "Out Of Stock" : "نفذت الكمية")) }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Description' : 'الوصف' }}</td>
-                            <td v-for="product in compare" :key="product.id" style="font-size: clamp(0.8125rem, calc(0.5125rem + 0.6vw), 1rem);" v-html="product.desc">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Add To Cart' : 'اضافة الي العربة' }}</td>
-                            <td v-for="product in compare" :key="product.id">
-                                <button style="cursor: pointer" @click="
-                                    addProductToCart(product.id, 1, product.stock, product.type)
-                                "><i class="fa-solid fa-cart-shopping"></i> <span>{{ lang == 'en' ? 'Add To Cart' : 'اضافة الى العربة' }}</span></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'Delete' : 'حذف' }}</td>
-                            <td v-for="product in compare" :key="product.id">
-                                <div class="remove" style="width: fit-content">
-                                    <button @click="removeProductFromCompare(product.id)"><i class="fa fa-close"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h1 v-if="!compare || compare.length == 0"  style="width:100%;margin: 5rem 0px; text-align: center; color: rgb(113, 113, 113);">{{ lang == 'en' ? 'There are no products added to compare' : 'لا توجد منتجات مضافة للمقارنة' }}</h1>
+        <!-- END SECTION SHOP -->
+
+
         </div>
     </main>
 </template>
@@ -190,7 +203,7 @@ export default {
             } else {
                 $('.loader').fadeIn().css('display', 'flex')
                 try {
-                    const response = await axios.post(`https://api.egyptgamestore.com/api/products/${product_id}/add-cart`, {
+                    const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                         qty: qty,
                         type: 'add',
                     },

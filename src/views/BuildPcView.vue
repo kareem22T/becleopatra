@@ -176,7 +176,7 @@ export default {
         },
         async addProductToCart(product_id, qty) {
             try {
-                const response = await axios.post(`https://api.egyptgamestore.com/api/products/${product_id}/add-cart`, {
+                const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                     qty: qty,
                     type: 'add',
                 },

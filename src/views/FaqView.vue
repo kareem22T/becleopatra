@@ -1,14 +1,26 @@
 <template>
     <main class="faq_wrapper">
-        <div class="page-head">
-            <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'FAQ' : 'الاسئلة الشائعة' }}
-            </div>
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>{{ lang == 'en' ? 'Frequently asked question' : 'الاسئلة الشائعة' }}</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">Faq</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
         </div>
         <div class="container">
-            <h1>{{ lang == 'en' ? 'FAQ' : 'الاسئلة الشائعة' }}</h1>
             <div class="questions">
-                <div v-for="item in questions" :key="item.id" class="question">
+                <div v-for="item in questions" :key="item.id" class="question" style="border-radius: 0;">
                     <div class="question-value"><span>{{ item.question }}</span><span><i class="fa-solid fa-chevron-down"></i></span></div>
                     <div class="answer">{{ item.answer }}</div>
                 </div>
@@ -36,7 +48,7 @@ export default {
         async getFaq() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/web/faqs`, 
+                const response = await axios.get(`https://becleopatra.com/api/settings/faqs`, 
                 {
                     headers: {
                         'Referrer-Policy': 'strict-origin-when-cross-origin',

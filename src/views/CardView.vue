@@ -301,7 +301,7 @@ export default {
         async getCart() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/cart`,
+                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -315,11 +315,6 @@ export default {
                     for (let i = 0; i < this.products.length; i++) {
                         this.products[i].product_type = 1;
                     }
-                    this.cards = response.data.data.cards
-                    for (let i = 0; i < this.cards.length; i++) {
-                        this.cards[i].product_type = 2;
-                    }
-                    this.cart = this.products.concat(this.cards)
                 }
 
             } catch (error) {

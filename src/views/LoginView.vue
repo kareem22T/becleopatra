@@ -53,7 +53,7 @@
                                                             me</span></label>
                                                 </div>
                                             </div>
-                                            <a href="#">{{ lang == 'en' ? 'Forgot Your Password?' : 'نسيت كلمة السر؟' }}</a>
+                                            <router-link to="/forgot-password">{{ lang == 'en' ? 'Forgot Your Password?' : 'نسيت كلمة السر؟' }}</router-link>
                                         </div>
                                         <div class="form-group mb-3">
                                             <button type="submit" class="btn btn-fill-out btn-block" name="login" @click="login(this.phone, this.password)">{{ lang == 'en' ? 'Login' : 'تسجيل الدخول' }}</button>

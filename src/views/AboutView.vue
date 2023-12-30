@@ -1,21 +1,38 @@
 <template>
-    <main class="contact_wrapper">
-        <div class="page-head">
-            <div class="container">
-                <router-link to="/">{{lang == 'en' ? 'Home' : 'الرئيسية'}}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'About Us' : 'من نحن' }}
+<main class="contact_wrapper">
+    <div class="breadcrumb_section bg_gray page-title-mini">
+        <div class="container"><!-- STRART CONTAINER -->
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="page-title">
+                        <h1>About Us</h1>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ol class="breadcrumb justify-content-md-end">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item active">About</li>
+                    </ol>
+                </div>
             </div>
-        </div>
+        </div><!-- END CONTAINER-->
+    </div>
+    <div class="section" v-if="about_company">
         <div class="container">
-            <div class="body" v-if="about_company">
-                <div>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about_img scene mb-4 mb-lg-0">
+                        <img src="/assets/images/about_img.jpg" alt="about_img">
+                    </div>
+                </div>
+                <div class="col-lg-6">
                     {{ about_company.content }}
                 </div>
-                <div class="img">
-                    <img src="./../assets/imgs/about.jpg" alt="about us image">
-                </div>
             </div>
         </div>
-    </main>
+    </div>    
+</main>
 </template>
 
 <script>
@@ -76,7 +93,7 @@ export default {
         async getAbout(lang) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/aboutCompany`,
+                const response = await axios.get(`https://becleopatra.com/api/settings/aboutUs`,
                 {
                     headers: {
                         "lang": lang

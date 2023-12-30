@@ -1,40 +1,64 @@
 <template>
-    <main class="register_wrapper">
-        <div class="page-head">
-            <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'Account' : 'الحساب' }}
-            </div>
+    <main>
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>{{ lang == 'en' ? 'Account' : 'الحساب' }}</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == 'en' ? 'Account' : 'الحساب' }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
         </div>
-        <div class="container">
-            <form @submit.prevent>
-                <div class="head">
-                    <h1>
-                        {{ lang == 'en' ? 'Reset your password' : 'تغير كلمة المرور' }}
-                    </h1>
-                    <p>
-                        {{ lang == 'en' ? 'We will send you an email to reset your password.' : 'تغير سوف نرسل لك بريدًا إلكترونيًا لإعادة تعيين كلمة المرور الخاصة بك.' }}
-                    </p>
+        <div class="main_content">
+            <!-- START LOGIN SECTION -->
+            <div class="login_register_wrap section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-6 col-md-10">
+                            <div class="login_wrap">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h3 style="text-align: center;">
+                                            {{ lang == 'en' ? 'Reset your password' : 'تغير كلمة المرور' }}
+                                        </h3>
+                                    </div>
+                                    <form method="post" @submit.prevent>
+                                        <div class="form-group mb-3">
+                                            <input type="password" name="old_password" id="old_password" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Old Password' : 'كلمة المرور القديمة'" 
+                                            v-model="old_password">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <input type="password" name="new_password" id="new_password" 
+                                            :placeholder="lang == 'en' ? 'New Password' : 'كلمة المرور الجديدة'"
+                                            class="form-control"
+                                            v-model="new_password">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <input type="password" name="confirm_new_password" id="confirm_new_password" class="form-control" :placeholder="lang == 'en' ? 'Confirm New Password' : 'تأكيد كلمة المرور الجديدة'" 
+                                            v-model="new_password_confirmation">
+                                            </div>
+                                        <div class="form-group mb-3">
+                                            <button type="submit" class="btn btn-fill-out btn-block" name="login"  @click="change(this.old_password, this.new_password, this.new_password_confirmation)">{{ lang == 'en' ? 'Save & Update' : 'حفظ وتحديث' }}</button>
+                                        </div>
+                                        <p style="text-align: center;">{{ lang == 'en' ? 'Forgot Your Old Password?' : 'هل نسيت كلمة المرور القديمة؟' }} <router-link to="/forgot-password">{{ lang == 'en' ? 'Click Here' : 'انقر هنا' }} </router-link></p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input">
-                    <input type="password" name="old_password" id="old_password" 
-                    :placeholder="lang == 'en' ? 'Old Password' : 'كلمة المرور القديمة'" 
-                    v-model="old_password">
-                    <img src="./../assets/imgs/lock-solid.svg" alt="lock icon">
-                </div>
-                <div class="input">
-                    <input type="password" name="new_password" id="new_password" 
-                    :placeholder="lang == 'en' ? 'New Password' : 'كلمة المرور الجديدة'"
-                    v-model="new_password">
-                    <img src="./../assets/imgs/lock-solid.svg" alt="lock icon">
-                </div>
-                <div class="input">
-                    <input type="password" name="confirm_new_password" id="confirm_new_password" :placeholder="lang == 'en' ? 'Confirm New Password' : 'تأكيد كلمة المرور الجديدة'" 
-                    v-model="new_password_confirmation">
-                    <img src="./../assets/imgs/lock-solid.svg" alt="lock icon">
-                </div>
-                <button type="submit" class="button" @click="change(this.old_password, this.new_password, this.new_password_confirmation)">{{ lang == 'en' ? 'Save & Update' : 'حفظ وتحديث' }}</button>
-                <p>{{ lang == 'en' ? 'Forgot Your Old Password?' : 'هل نسيت كلمة المرور القديمة؟' }} <router-link to="/forgot-password">{{ lang == 'en' ? 'Click Here' : 'انقر هنا' }} </router-link></p>
-            </form>
+            </div>
+            <!-- END LOGIN SECTION -->
         </div>
     </main>
 </template>
@@ -61,7 +85,7 @@ export default {
             $('.loader').fadeIn().css('display', 'flex')
             if (new_password == new_password_confirmation)
                 try {
-                    const response = await axios.post(`${window.main_url}/updatePassword`, {
+                    const response = await axios.post(`${window.main_url}/changePassword`, {
                         old_password: old_password,
                         new_password: new_password
                     },
