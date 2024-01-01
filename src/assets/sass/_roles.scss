@@ -1,5 +1,5 @@
 $main_color: #e63b12;
-$secondary_color: #0b5177;
+$secondary_color: #ff324d;
 $light_gray: #f8f8f8;
 $light_blue: #f0f3f8;
 $text_gray: #33332c;
@@ -233,7 +233,7 @@ input, textarea {
 
 .pop-up {
     &.search-pop-up {
-        top: clamp(3.125rem, calc(1.7314rem + 5.9459vw), 6.5625rem) !important;
+        top: calc(clamp(3.125rem, calc(1.7314rem + 5.9459vw), 6.5625rem) + 10px) !important;
         flex-direction: row !important;
         width: 100% !important;
         max-width: 95vw !important;

@@ -32,6 +32,7 @@
                                         <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
+                                        <th class="product-price">Quantity</th>
                                         <th class="product-stock-status">Total Prices</th>
                                         <th class="product-remove">Remove</th>
                                     </tr>
@@ -146,14 +147,14 @@ export default {
             }
 
         },
-        async getCart(lang) {
+        async getCart() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
                 const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": lang
+                            "lang": "en"
                         },
                     }
                 );
@@ -203,7 +204,8 @@ export default {
                 const response = await axios.delete(`https://becleopatra.com/api/users/carts/deleteProductFromCart?product_id=${product_id}`,
                     {
                         headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": this.lang
                         }
                     },
                 );
@@ -264,7 +266,7 @@ export default {
                     },
                 );
                 if (response.data.status === true) {
-                    console.log('');
+                    this.getCart()
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''

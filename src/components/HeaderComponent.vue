@@ -406,7 +406,7 @@
                         </ul>
                     </div>
                     <ul class="navbar-nav attr-nav align-items-center">
-                        <li><a href="javascript:;" class="nav-link search_trigger"><i
+                        <li><a href="javascript:;" class="nav-link search_trigger" @click="showSearchPopUp = true"><i
                                     class="fa-solid fa-magnifying-glass"></i></a>
                             <div class="search_wrap">
                                 <span class="close-search"><i class="ion-ios-close-empty"></i></span>
@@ -425,6 +425,18 @@
                     </ul>
                 </nav>
             </div>
+        </div>
+        <div class="hide-content" v-if="showSearchPopUp"></div>
+        <div class="pop-up search-pop-up" v-if="showSearchPopUp" style="top: calc(clamp(3.125rem, calc(1.7314rem + 5.9459vw), 6.5625rem) + 20px) !important;border-radius: 0;">
+            <div class="input-search">
+                <input type="text" name="search" id="search" :placeholder="page_data.search_text" v-model="search" @keyup="getSugesstions()" @keyup.enter="goToSearch" @focus="showSuggesstion = true" @blur="showSuggesstion = false">
+                <i class="fa fa-search" style="cursor: pointer" @click="goToSearch"></i>
+                <div class="suggestions suggestions2" v-if="results && results.length">
+                    <router-link :to="item.product_type == 1 ? `/product/${item.id}` : `/card/${item.id}`" v-for="item in results.slice(0, 5)" :key="item.id" @click="showSearchPopUp = false">{{ item.name }}</router-link>
+                    <a href="" style="text-align: center !important; font-weight: 600 !important" @click.prevent="goToSearch" v-if="results && results.length > 5">{{ page_data.view_all }}</a>
+                </div>
+            </div>
+            <button @click="showSearchPopUp = false; this.search = ''">{{page_data.cancel}}</button>
         </div>
     </header>
     <!-- END HEADER -->
@@ -586,10 +598,11 @@ export default {
         },
         async getSugesstions() {
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/products-cards/search?search=${this.search}`,
+                const response = await axios.get(`https://becleopatra.com/api/products/getSearchProducts?search=${this.search}`,
                     {
                         headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": this.lang
                         }
                     },
                 );
@@ -599,12 +612,7 @@ export default {
                         this.products[i].product_type = 1;
                         this.quantities[`product_${this.products[i].id}`] = this.products[i].qty
                     }
-                    this.cards = response.data.data.cards
-                    for (let i = 0; i < this.cards.length; i++) {
-                        this.cards[i].product_type = 2;
-                        this.quantities[`card_${this.cards[i].id}`] = this.cards[i].qty
-                    }
-                    this.results = this.products.concat(this.cards)
+                    this.results = this.products
 
                 } else {
                     this.results = null

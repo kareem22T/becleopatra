@@ -179,9 +179,6 @@
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
                                                     <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
-                                                    <div class="on_sale" v-if="product.on_sale">
-                                                        <span>{{ product.discount + "EGP" }} Off</span>
-                                                    </div>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                         <div class="rating">
@@ -237,9 +234,6 @@
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
                                                     <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
-                                                    <div class="on_sale" v-if="product.on_sale">
-                                                        <span>{{ product.discount + "EGP" }} Off</span>
-                                                    </div>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                     <div class="rating">
@@ -295,9 +289,6 @@
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
                                                     <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
-                                                    <div class="on_sale" v-if="product.on_sale">
-                                                        <span>{{ product.discount + "EGP" }} Off</span>
-                                                    </div>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                     <div class="rating">
@@ -404,9 +395,6 @@
                                     <div class="product_price">
                                         <span class="price">{{ product.regular_price + "EGP" }}</span>
                                         <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
-                                        <div class="on_sale" v-if="product.on_sale">
-                                            <span>{{ product.discount + "EGP" }} Off</span>
-                                        </div>
                                     </div>
                                     <!-- <div class="rating_wrap">
                                 <div class="rating">
@@ -858,7 +846,7 @@ export default {
                 document.getElementById('errors').innerHTML = ''
                 let err = document.createElement('div')
                 err.classList = 'error'
-                err.innerHTML = 'server error try again later'
+                err.innerHTML = error.response.status == 401 ? 'Please login first' : 'server error try again later'
                 document.getElementById('errors').append(err)
                 $('#errors').fadeIn('slow')
                 $('.loader').fadeOut()
