@@ -252,8 +252,8 @@
                                     white-space: nowrap;
                                     display: none;
                                     ">
-                                        <router-link to="/edit-profile" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_profile }}</router-link>
-                                        <router-link to="/my-orders" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_orders }}</router-link>
+                                        <!-- <router-link to="/edit-profile" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_profile }}</router-link>
+                                        <router-link to="/my-orders" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_orders }}</router-link> -->
                                         <router-link to="/change-password" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.change_pass }}</router-link>
                                         <router-link to="/log-out" style="line-height: 17px;padding: .5rem 1rem;" @click.prevent="logout()"><i class="fa-solid fa-chevron-right"></i> {{ page_data.logout }}</router-link>
                                     </ul>
@@ -299,107 +299,14 @@
                                 <a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Products</a>
                                 <div class="dropdown-menu">
                                     <ul class="mega-menu d-lg-flex">
-                                        <li class="mega-menu-col col-lg-3">
+                                        <li class="mega-menu-col col-lg-3" v-for="category in categories" :key="category.id">
                                             <ul>
-                                                <li class="dropdown-header">Woman's</li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-list-left-sidebar.html">Vestibulum sed</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-left-sidebar.html">Donec porttitor</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-right-sidebar.html">Donec vitae facilisis</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-list.html">Curabitur tempus</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-load-more.html">Vivamus in tortor</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-menu-col col-lg-3">
-                                            <ul>
-                                                <li class="dropdown-header">Men's</li>
-                                                <li><a class="dropdown-item nav-link nav_item" href="shop-cart.html">Donec
-                                                        vitae ante ante</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item" href="checkout.html">Etiam ac
-                                                        rutrum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item" href="wishlist.html">Quisque
-                                                        condimentum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item" href="compare.html">Curabitur
-                                                        laoreet</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="order-completed.html">Vivamus in tortor</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-menu-col col-lg-3">
-                                            <ul>
-                                                <li class="dropdown-header">Kid's</li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail.html">Donec vitae facilisis</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-left-sidebar.html">Quisque
-                                                        condimentum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-right-sidebar.html">Etiam ac
-                                                        rutrum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-thumbnails-left.html">Donec vitae ante
-                                                        ante</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-thumbnails-left.html">Donec
-                                                        porttitor</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-menu-col col-lg-3">
-                                            <ul>
-                                                <li class="dropdown-header">Accessories</li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail.html">Donec vitae facilisis</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-left-sidebar.html">Quisque
-                                                        condimentum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-right-sidebar.html">Etiam ac
-                                                        rutrum</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-thumbnails-left.html">Donec vitae ante
-                                                        ante</a></li>
-                                                <li><a class="dropdown-item nav-link nav_item"
-                                                        href="shop-product-detail-thumbnails-left.html">Donec
-                                                        porttitor</a></li>
+                                                <li class="dropdown-header">{{category.name}}</li>
+                                                <li v-for="cat in category.sub_categories" :key="cat.id"><a class="dropdown-item nav-link nav_item LINK"
+                                                        :href="'/category/' + cat.id">{{cat.name}}</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-                                    <div class="d-lg-flex menu_banners row g-3 px-3">
-                                        <div class="col-sm-4">
-                                            <div class="header-banner">
-                                                <img src="/assets/images/menu_banner1.jpg" alt="menu_banner1">
-                                                <div class="banne_info">
-                                                    <h6>10% Off</h6>
-                                                    <h4>New Arrival</h4>
-                                                    <a href="#">Shop now</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="header-banner">
-                                                <img src="/assets/images/menu_banner2.jpg" alt="menu_banner2">
-                                                <div class="banne_info">
-                                                    <h6>15% Off</h6>
-                                                    <h4>Men's Fashion</h4>
-                                                    <a href="#">Shop now</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="header-banner">
-                                                <img src="/assets/images/menu_banner3.jpg" alt="menu_banner3">
-                                                <div class="banne_info">
-                                                    <h6>23% Off</h6>
-                                                    <h4>Kids Fashion</h4>
-                                                    <a href="#">Shop now</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </li>
                             <li><router-link class="nav-link nav_item" to="/contact-us">Contact Us</router-link></li>
@@ -476,7 +383,9 @@ export default {
             cards: null,
             lang: "en",
             page_data: null,
-            showLangMore: false
+            showLangMore: false,
+            categories: null,
+            categoriesWithSub: null
         }
     },
     methods: {
@@ -664,6 +573,86 @@ export default {
                 console.error(error);
             }
         },
+        async getSubCategories(id) {
+            try {
+                const response = await axios.get(`https://becleopatra.com/api/categories/getSubCategories?category_id=${id}`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    this.cuurentSubCategoris = response.data.data
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
+            }
+        },
+        async getCategories() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://becleopatra.com/api/categories/getAll`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.categories = response.data.data
+                    // let categories = this.categories
+                    // let categoriesWithSub = []
+
+                    //     categories.forEach(category => {
+                    //         this.getSubCategories(category.id).then(()=> {
+                    //             categoriesWithSub.push(category.sub_categories)
+                    //         })
+                    //     })
+                    //     this.categories = categoriesWithSub
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
+            }
+        },
         getHomeData() {
             this.setLangCookies()
             let data = require('../assets/api/header.json');
@@ -701,12 +690,12 @@ export default {
             e.preventDefault()
             $('nav, .hide').fadeOut()
         })
-        $(document).on('click', 'nav a:not(.lang_mobile)', function (e) {
-            e.preventDefault()
-            if ($(window).width() < 855) {
-                $('nav, .hide').fadeOut()
-            }
-        })
+        // $(document).on('click', 'nav a:not(.lang_mobile, .LINK)', function (e) {
+        //     e.preventDefault()
+        //     if ($(window).width() < 855) {
+        //         $('nav, .hide').fadeOut()
+        //     }
+        // })
         $(window).resize(function () {
             // Check if the window width is greater than 600 pixels
             $('.left nav a span').each(function () {
@@ -717,6 +706,7 @@ export default {
     created() {
         this.getCart()
         this.getHomeData()
+        this.getCategories()
     },
 }
 </script>

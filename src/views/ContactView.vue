@@ -75,22 +75,19 @@
                     <form method="post" name="enq">
                         <div class="row">
                             <div class="form-group col-md-6 mb-3">
-                                <input required="" placeholder="Enter Name *" id="first-name" class="form-control" name="name" type="text">
+                                <input required="" placeholder="Enter Name *" id="first-name" class="form-control" name="name" type="text" v-model="name">
                             </div>
                             <div class="form-group col-md-6 mb-3">
-                                <input required="" placeholder="Enter Email *" id="email" class="form-control" name="email" type="email">
-                            </div>
-                            <div class="form-group col-md-6 mb-3">
-                                <input required="" placeholder="Enter Phone No. *" id="phone" class="form-control" name="phone">
-                            </div>
-                            <div class="form-group col-md-6 mb-3">
-                                <input placeholder="Enter Subject" id="subject" class="form-control" name="subject">
+                                <input required="" placeholder="Enter Phone No. *" id="phone" class="form-control" name="phone" v-model="phone">
                             </div>
                             <div class="form-group col-md-12 mb-3">
-                                <textarea required="" placeholder="Message *" id="description" class="form-control" name="message" rows="4"></textarea>
+                                <input required="" placeholder="Enter Email *" id="email" class="form-control" name="email" type="email" v-model="email">
+                            </div>
+                            <div class="form-group col-md-12 mb-3">
+                                <textarea required="" placeholder="Message *" id="description" class="form-control" name="message" rows="4" v-model="msg"></textarea>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <button type="submit" title="Submit Your Message!" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit">Send Message</button>
+                                <button type="submit" title="Submit Your Message!" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit" @click="send()">Send Message</button>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div id="alert-msg" class="alert-msg text-center"></div>
@@ -122,10 +119,9 @@ export default {
     name: 'ContactView',
     data() {
         return {
-            username: null,
-            last_name: null,
+            name: null,
             email: null,
-            subject: null,
+            phone: null,
             msg: null,
             lang: "en"
         }
@@ -170,14 +166,14 @@ export default {
             }
 
         },
-        async send(username, email, subject, message) {
+        async send() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
                 const response = await axios.post(`https://api.egyptgamestore.com/api/sendContactUs`, {
-                    username: username,
-                    email: email,
-                    subject: subject,
-                    message: message
+                    name: this.name,
+                    email: this.email,
+                    phone: this.phone,
+                    message: this.message
                 }, {
                     headers: {
                         "lang": this.lang

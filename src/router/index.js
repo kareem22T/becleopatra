@@ -20,13 +20,14 @@ import ChangePassView from '../views/ChangePassView.vue'
 import ResetPassView from '../views/ResetPassView.vue'
 import VerifyView from '../views/VerifyView.vue'
 import SearchView from '../views/SearchView.vue'
+import ProductsView from '../views/ProductsView.vue'
 import BuildPcView from '../views/BuildPcView.vue'
 
-import CategoryView from '../views/CategoryView.vue'
 import CompareView from '../views/CompareView.vue'
 import PhysicalStoreView from '../views/PhysicalStoreView.vue'
 import DigitalStoreView from '../views/DigitalStoreView.vue'
 import ProductView from '../views/ProductView.vue'
+import AddressessView from '../views/AddressessView.vue'
 import CardView from '../views/CardView.vue'
 
 import authMiddleware from '@/middleware/auth';
@@ -161,7 +162,13 @@ const routes = [
   },
   {
     path: '/checkout',
-    component: CheckoutView
+    component: CheckoutView,
+    meta: { auth: true }
+  },
+  {
+    path: '/my-addresses',
+    component: AddressessView,
+    meta: { auth: true }
   },
   {
     path: '/order/:id',
@@ -191,33 +198,12 @@ const routes = [
     component: CardView,
   },
   {
-    path: '/category',
-    component: CategoryView,
-    children: [
-      {
-        path: '/category/:cat',
-        component: CategoryView,
-      },
-      {
-        path: '/category/World2Egypt',
-        component: CategoryView,
-        meta: {id: 1, type: 0}
-      },
-      {
-        path: '/category/physical-store',
-        component: CategoryView,
-        meta: {id: 2, type: 0, category_name: 'Physical Store', category_path: 'physical-store'},
-      },
-      {
-        path: '/category/digital-store',
-        component: CategoryView,
-        meta: {id: 3, type: 0, category_name: 'Digital Store', category_path: 'digital-store'}
-      },
-    ],
-  },
-  {
     path: '/search/:search',
     component: SearchView
+  },
+  {
+    path: '/category/:id',
+    component: ProductsView
   },
 ]
 const router = createRouter({
