@@ -153,7 +153,7 @@
                                         <div class="product">
                                             <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
                                             <div class="product_img">
-                                                <a href="shop-product-detail.html">
+                                                <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
                                                 </a>
                                                 <div class="product_action_box">
@@ -174,7 +174,7 @@
                                                 </div>
                                             </div>
                                             <div class="product_info">
-                                                <h6 class="product_title"><a href="shop-product-detail.html">{{ product.name
+                                                <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
@@ -208,7 +208,7 @@
                                         <div class="product">
                                             <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
                                             <div class="product_img">
-                                                <a href="shop-product-detail.html">
+                                                <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
                                                 </a>
                                                 <div class="product_action_box">
@@ -229,7 +229,7 @@
                                                 </div>
                                             </div>
                                             <div class="product_info">
-                                                <h6 class="product_title"><a href="shop-product-detail.html">{{ product.name
+                                                <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
@@ -263,7 +263,7 @@
                                         <div class="product">
                                             <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
                                             <div class="product_img">
-                                                <a href="shop-product-detail.html">
+                                                <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
                                                 </a>
                                                 <div class="product_action_box">
@@ -284,7 +284,7 @@
                                                 </div>
                                             </div>
                                             <div class="product_info">
-                                                <h6 class="product_title"><a href="shop-product-detail.html">{{ product.name
+                                                <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
                                                     <span class="price">{{ product.regular_price + "EGP" }}</span>
@@ -373,7 +373,7 @@
                                 :key="product.id" style="width: 264px; margin-right: 20px;">
                                 <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
                                 <div class="product_img">
-                                    <a href="shop-product-detail.html">
+                                    <a :href="`/product/${product.id}`">
                                         <img :src="product.first_image" alt="product_img6">
                                     </a>
                                     <div class="product_action_box">
@@ -391,7 +391,7 @@
                                     </div>
                                 </div>
                                 <div class="product_info">
-                                    <h6 class="product_title"><a href="shop-product-detail.html">{{ product.name }}</a></h6>
+                                    <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name }}</a></h6>
                                     <div class="product_price">
                                         <span class="price">{{ product.regular_price + "EGP" }}</span>
                                         <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
