@@ -29,7 +29,6 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Number</th>
                                         <th class="product-price">Status</th>
                                         <th class="product-stock-status">Total Prices</th>
@@ -43,7 +42,8 @@
                                         <td><span class="canceled">{{order.status }}</span></td>
                                         <td>{{order.created_at }}</td>
                                         <td>{{order.total_price.toLocaleString()}} {{ lang == 'en' ? 'EGP' : 'جنيه' }}</td>
-                                        <td><button @click="this.$router.push(`/order/${order.id}`)">{{ lang == 'en' ? 'View Order' : 'عرض الطلب' }}</button></td>
+                                        <td><router-link :to="`/order/${order.id}`" class="btn btn-fill-out" style="float: right;">View order</router-link></td>
+
                                     </tr>                                
                                 </tbody>
                                 <tbody v-if="!orders || orders.length == 0">

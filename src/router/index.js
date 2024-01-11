@@ -26,6 +26,7 @@ import BuildPcView from '../views/BuildPcView.vue'
 import CompareView from '../views/CompareView.vue'
 import PhysicalStoreView from '../views/PhysicalStoreView.vue'
 import DigitalStoreView from '../views/DigitalStoreView.vue'
+import AddAddress from '../views/AddNewAddress.vue'
 import ProductView from '../views/ProductView.vue'
 import AddressessView from '../views/AddressessView.vue'
 import CardView from '../views/CardView.vue'
@@ -168,6 +169,11 @@ const routes = [
   {
     path: '/my-addresses',
     component: AddressessView,
+    meta: { auth: true }
+  },
+  {
+    path: '/add-address',
+    component: AddAddress,
     meta: { auth: true }
   },
   {

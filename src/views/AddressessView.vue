@@ -29,38 +29,25 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Full address</th>
                                         <th class="product-price">Status</th>
                                         <th class="product-price">Controles</th>
                                     </tr>
                                 </thead>
-                                <tbody v-if="cart && cart.length > 0">
-                                    <tr v-for="item in cart" :key="item.id">
-                                        <td class="product-thumbnail"><a :href="'/product/' + item.id" target="_blank"><img :src="item.first_image" alt="product1"></a></td>
-                                        <td class="product-name" data-title="Product"><a :href="'/product/' + item.id" target="_blank">{{item.name}}</a></td>
-                                        <td class="product-price" data-title="Price">{{ item.piece_price }} EGP</td>
-                                        <td>
-                                            <div class="cart-product-quantity">
-                                                <div class="quantity">
-                                                    <input type="button" value="-" class="minus" @click="quantities[`product_${item.id}`]  > 1 ? quantities[`product_${item.id}`]  -= 1 : '';updateQty(item.id, quantities[`product_${item.id}`] )">
-                                                    <input type="text" name="quantity" title="Qty" class="qty" size="4" v-model="quantities[`product_${item.id}`] ">
-                                                    <input type="button" value="+" class="plus" @click="quantities[`product_${item.id}`]  += 1;updateQty(item.id, quantities[`product_${item.id}`] )">
-                                                </div>
-                                            </div>
+                                <tbody v-if="addresses && addresses.length > 0">
+                                    <tr v-for="item in addresses" :key="item.id">
+                                        <td class="product-price" data-title="Price">{{ item.full_address }}</td>
+                                        <td class="product-price" data-title="Price">{{ item.is_default ? "Default Address" : "Normal Address" }}</td>
+                                        <td class="product-price" data-title="Price">
+
                                         </td>
-                                        <td class="product-price" data-title="Price">{{item.quantity_price}} EGP</td>
-                                        <td class="product-remove" data-title="Remove"><a href="#" @click.prevent="deleteProductToCart(item.id)"><i class="ti-close"></i></a></td>
                                     </tr>
                                 </tbody>
-                                <tbody v-if="!cart || cart.length == 0">
+                                <tbody v-if="!addresses || addresses.length == 0">
                                     <td colspan="6" style="text-align: center;padding: 10px;">There are no added arddresses then</td>
                                 </tbody>
                             </table>
-                            <div  v-if="cart && cart.length > 0" style="display: flex; justify-content: space-between;">
-                                <div><h4>Total: {{ total }}</h4></div>
-                                <div><router-link to="/checkout" class="btn btn-fill-out" style="float: right;">Checkout</router-link></div>
-                            </div>
+                            <router-link to="/add-address" class="btn btn-fill-out" style="margin: auto;">Add Address</router-link>
                         </div>
                     </div>
                 </div>
@@ -94,7 +81,7 @@ export default {
     name: 'AddressessView',
     data() {
         return {
-            cart: null,
+            addresses: null,
             quantities: {},
             total: 0,
             products: null,
@@ -158,11 +145,7 @@ export default {
                 );
                 if (response.data.status === true) {
                     $('.loader').fadeOut()
-                    this.total = response.data.data.sub_total
-                    this.cart = response.data.data
-                    for (let i = 0; i < this.cart.length; i++) {
-                        this.quantities[`product_${this.cart[i].id}`] = this.cart[i].qty
-                    }
+                    this.addresses = response.data.data
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
