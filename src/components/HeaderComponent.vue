@@ -143,7 +143,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                            <div class="lng_dropdown me-2">
+                            <!-- <div class="lng_dropdown me-2">
                                 <div style="height: 0px; overflow: hidden; position: absolute;" class="ddOutOfVision"
                                     id="msdrpdd20_msddHolder"><select name="countries" class="custome_select" id="msdrpdd20"
                                         tabindex="-1">
@@ -215,7 +215,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <ul class="contact_detail text-center text-lg-start">
                                 <li><i class="ti-mobile"></i><span>123-456-7890</span></li>
                             </ul>
