@@ -1,33 +1,52 @@
 <template>
-    <main class="register_wrapper">
-        <div class="page-head">
-            <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'Account' : 'الحساب' }}
-            </div>
+        <main>
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>{{ lang == 'en' ? 'My Account' : 'حسابي' }}</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == 'en' ? 'Account' : 'الحساب' }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
         </div>
-        <div class="container">
-            <form action="">
-                <div class="head">
-                    <h1>
-                        {{ lang == 'en' ? "Edit My Profile" : "تعديل ملفي الشخصي" }}
-                    </h1>
-                    <p>{{ lang == 'en' ? "Edit Then Click Update Now" : "عدل ثم انقر فوق التحديث الآن" }}</p>
+        <div class="main_content">
+            <!-- START LOGIN SECTION -->
+            <div class="login_register_wrap section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-6 col-md-10">
+                            <div class="login_wrap">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h3 style="text-align: center;">
+                                            {{ lang == 'en' ? 'Update Profile' : 'تعديل الملف الشخصي' }}
+                                        </h3>
+                                    </div>
+                                    <form method="post" @submit.prevent>
+                                        <div class="form-group mb-3">
+                                            <input type="text" name="name" id="name" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Full Name' : 'الاسم كامل'" 
+                                            v-model="name">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <button type="submit" class="btn btn-fill-out btn-block" name="login"  @click="update(this.name)">{{ lang == 'en' ? 'Save & Update' : 'حفظ وتحديث' }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input">
-                    <input type="text" name="phone" id="phone" :placeholder="lang == 'en' ? 'Phone Number' : 'رقم الهاتف'">
-                    <img src="./../assets/imgs/phone-solid.svg" alt="phone icon">
-                </div>
-                <div class="input">
-                    <input type="text" name="email" id="email" :placeholder="lang == 'en' ? 'Email' : 'البريد الالكتروني'">
-                    <img src="./../assets/imgs/envelope-regular.svg" alt="email icon">
-                </div>
-                <div class="input">
-                    <input type="text" name="dob" id="dob" :placeholder="lang == 'en' ? 'Date Of Birth' : 'تاريخ الميلاد'"
-                    onfocus="(this.type='date')" onblur="(this.type='text')" class="form-control">
-                    <img src="./../assets/imgs/calendar-days-regular.svg" alt="calendar icon">
-                </div>
-                <button type="submit" class="button">{{ lang == 'en' ? "Update Now !" : "تحديث الان !" }}</button>
-            </form>
+            </div>
+            <!-- END LOGIN SECTION -->
         </div>
     </main>
 </template>
@@ -38,16 +57,82 @@ var $ = global.jQuery;
 window.$ = $;
 
 // import { getUser } from './../assets/js/get-user';
+import axios from 'axios';
+// import { setCookie } from './../assets/js/set-cookie'
 
 export default {
     name: 'EditProfileView',
     data() {
         return {
             user: null,
-            lang: 'en'
+            lang: 'en',
+            name: null
         }
     },
     methods: {
+        async update(name) {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.post(`https://klm.cdy.mybluehost.me/stores/api/users/updateProfile`, {
+                    name: name,
+                },
+                {
+                    headers: {
+                        "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                        "lang": this.lang
+                    }
+                }
+                );
+                if (response.data.status === true) {
+                    document.getElementById('errors').innerHTML = ''
+                    let error = document.createElement('div')
+                    error.classList = 'success'
+                    error.innerHTML = response.data.message
+                    document.getElementById('errors').append(error)
+                    $('#errors').fadeIn('slow')
+                    setTimeout(() => {
+                        $('.loader').fadeOut()
+                        $('#errors').fadeOut('slow')
+                        console.log(response.data)
+                        if (response.data.data.verified == 1) {
+                            window.location.href = '/'
+                        } else{
+                            window.location.href = '/verify'
+                        }
+                    }, 1300);
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                document.getElementById('errors').innerHTML = ''
+                let err = document.createElement('div')
+                err.classList = 'error'
+                err.innerHTML = 'server error try again later'
+                document.getElementById('errors').append(err)
+                $('#errors').fadeIn('slow')
+                $('.loader').fadeOut()
+
+                setTimeout(() => {
+                    $('#errors').fadeOut('slow')
+                }, 3500);
+
+                console.error(error);
+            }
+        },
         setLangCookies() {
             let langCheck = document.cookie.indexOf('lang')
 
@@ -93,9 +178,8 @@ export default {
     },
     mounted() {
         this.user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
-        $('#phone').val(this.user.phone ? this.user.phone : null)
-        $('#email').val(this.user.email ? this.user.email : null)
-        $('#dob').val(this.user.dob ? this.user.dob : null)
+        this.name = this.user.name
+        // $('#name').val(this.user.name ? this.user.name : null)
     },
     created() {
         this.getHomeData()

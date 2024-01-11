@@ -1,38 +1,62 @@
 <template>
     <main class="orders_wrapper">
-        <div class="page-head">
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>My Orders</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active">My Orders</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div> 
+        <div class="main_content">
+
+        <!-- START SECTION SHOP -->
+        <div class="section">
             <div class="container">
-                <router-link to="/">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</router-link> <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i> {{ lang == 'en' ? 'Account' : 'الحساب' }} <i :class="lang == 'en' ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'"></i>  {{ lang == 'en' ? 'Orders' : 'عمليات الشراء' }}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive My Cart_table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Number</th>
+                                        <th class="product-price">Status</th>
+                                        <th class="product-stock-status">Total Prices</th>
+                                        <th class="product-remove">Date</th>
+                                        <th class="product-remove">Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-if="orders && orders.length > 0">
+                                    <tr v-for="order in orders" :key="order.id" >
+                                        <td>{{order.number }}</td>
+                                        <td><span class="canceled">{{order.status }}</span></td>
+                                        <td>{{order.created_at }}</td>
+                                        <td>{{order.total_price.toLocaleString()}} {{ lang == 'en' ? 'EGP' : 'جنيه' }}</td>
+                                        <td><button @click="this.$router.push(`/order/${order.id}`)">{{ lang == 'en' ? 'View Order' : 'عرض الطلب' }}</button></td>
+                                    </tr>                                
+                                </tbody>
+                                <tbody v-if="!orders || orders.length == 0">
+                                    <td colspan="6" style="text-align: center;padding: 10px;">No orders yet</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="container">
-            <h1 v-if="orders && orders.length > 0">{{ lang == 'en' ? 'My Orders' : 'طلباتي' }}</h1>
-            <div class="table_wrapper" v-if="orders && orders.length > 0">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>{{ lang == 'en' ? 'order' : 'الطلب' }} #</td>
-                            <td>{{ lang == 'en' ? 'Status' : 'الحالة' }}</td>
-                            <td>{{ lang == 'en' ? 'Payment Methode' : 'وسيلة الدفع' }}</td>
-                            <td>{{ lang == 'en' ? 'Total' : 'المجموع' }}</td>
-                            <td>{{ lang == 'en' ? 'Date' : 'التاريخ' }}</td>
-                            <td>{{ lang == 'en' ? 'Details' : 'تفاصيل' }}</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="order in orders" :key="order.id" >
-                            <td>{{order.name }}</td>
-                            <td><span class="canceled">{{order.status }}</span></td>
-                            <td>{{order.payment_method }}</td>
-                            <td>{{order.total_price.toLocaleString()}} {{ lang == 'en' ? 'EGP' : 'جنيه' }}</td>
-                            <td>{{order.created_at }}</td>
-                            <td><button @click="this.$router.push(`/order/${order.id}`)">{{ lang == 'en' ? 'View Order' : 'عرض الطلب' }}</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h1 v-if="!orders || orders.length == 0"  style="width:100%;margin: 5rem 0px; text-align: center; color: rgb(113, 113, 113);">{{ lang == 'en' ? 'No orders yet' : 'لا توجد عمليات شراء' }}</h1>
         </div>
+        <!-- END SECTION SHOP -->
     </main>
 </template>
 
@@ -55,7 +79,7 @@ export default {
         async getOrders() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://api.egyptgamestore.com/api/users/orders`,
+                const response = await axios.get(`https://becleopatra.com/api/users/orders/getOrders`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
