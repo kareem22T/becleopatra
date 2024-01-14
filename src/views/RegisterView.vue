@@ -89,6 +89,7 @@ export default {
             password: null,
             password_confirmation: null,
             errorMsg: "",
+            referral_code: this.$route.query.referral_code ? this.$route.query.referral_code : (localStorage.getItem("referral_code") ? localStorage.getItem("referral_code") : null),
         }
     },
     methods: {
@@ -103,6 +104,7 @@ export default {
                             phone: phone,
                             password: password,
                             password_confirmation: password_confirmation,
+                            referral_code: this.referral_code
                         }, {
                             headers: {
                                 "lang": this.lang

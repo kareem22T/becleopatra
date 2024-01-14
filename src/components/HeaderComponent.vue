@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="left">
                     <p>{{ page_data.welcome_header  }} <span dir="ltr">{{ page_data.egs }}</span></p>
-                    <ul>
+                        <ul>
                         <router-link to="/about-us">
                             <li>{{ page_data.about_us }}</li>
                         </router-link>
@@ -387,10 +387,21 @@ export default {
             page_data: null,
             showLangMore: false,
             categories: null,
-            categoriesWithSub: null
+            categoriesWithSub: null,
+            referral_code: null
         }
     },
     methods: {
+        checkReferralCode() {
+            // const referralCode = this.$route.query.referral_code;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Get the value of the 'referral_code' parameter
+            const referralCode = urlParams.get('referral_code');
+            if (referralCode) {
+                localStorage.setItem("referral_code", referralCode)
+            }
+        },
         changeLang() {
             document.body.classList.add(this.lang)
             document.body.classList.remove(this.lang == 'ar' ? 'en' : 'ar')
@@ -708,6 +719,7 @@ export default {
     created() {
         this.getCart()
         this.getHomeData()
+        this.checkReferralCode()
         this.getCategories()
     },
 }
