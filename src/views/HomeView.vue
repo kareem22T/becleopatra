@@ -90,21 +90,11 @@
                 <div class="row">
                     <div class="col-md-6" v-for="item in home_content.products_ads" :key="item.id">
                         <div class="single_banner">
-                            <img src="/assets/images/shop_banner_img2.jpg" alt="shop_banner_img1">
+                            <img :src="item.image" alt="shop_banner_img1">
                             <div class="single_banner_info">
-                                <h5 class="single_bn_title1">Title</h5>
-                                <h3 class="single_bn_title">Sale</h3>
-                                <a href="shop-left-sidebar.html" class="single_bn_link">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" v-for="item in home_content.products_ads" :key="item.id">
-                        <div class="single_banner">
-                            <img src="/assets/images/shop_banner_img1.jpg" alt="shop_banner_img1">
-                            <div class="single_banner_info">
-                                <h5 class="single_bn_title1">Title</h5>
-                                <h3 class="single_bn_title">Sale</h3>
-                                <a href="shop-left-sidebar.html" class="single_bn_link">Shop Now</a>
+                                <!-- <h5 class="single_bn_title1">Title</h5>
+                                <h3 class="single_bn_title">Sale</h3> -->
+                                <a :href="`/product/${item.id}`" class="single_bn_link">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -112,7 +102,7 @@
             </div>
         </div>
 
-        <div class="section small_pt pb_70">
+        <div class="section small_pt" style="padding-bottom: 0;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -316,29 +306,6 @@
             </div>
         </div>
 
-        <div class="section bg_light_blue2 pb-0 pt-md-0">
-            <div class="container">
-                <div class="row align-items-center flex-row-reverse">
-                    <div class="col-md-6 offset-md-1">
-                        <div class="medium_divider d-none d-md-block clearfix"></div>
-                        <div class="trand_banner_text text-center text-md-start">
-                            <div class="heading_s1 mb-3">
-                                <span class="sub_heading">New season trends!</span>
-                                <h2>Best Summer Collection</h2>
-                            </div>
-                            <h5 class="mb-4">Sale Get up to 50% Off</h5>
-                            <a href="shop-left-sidebar.html" class="btn btn-fill-out rounded-0">Shop Now</a>
-                        </div>
-                        <div class="medium_divider clearfix"></div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="text-center trading_img">
-                            <img src="/assets//images/tranding_img.png" alt="tranding_img">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="section"
             v-if="home_content && home_content.recommended_products && home_content.recommended_products.length > 0"
