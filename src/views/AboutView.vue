@@ -93,7 +93,7 @@ export default {
         async getAbout(lang) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/settings/aboutUs`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings/aboutUs`,
                 {
                     headers: {
                         "lang": lang

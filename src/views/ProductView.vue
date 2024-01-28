@@ -176,7 +176,7 @@ export default {
         async getCart() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -200,7 +200,7 @@ export default {
         async fetchProduct(productId) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/products/getProductDetails?product_id=${productId}`, {
+                const response = await axios.get(`https://admin.becleopatra.com/api/products/getProductDetails?product_id=${productId}`, {
                     headers: {
                         "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
                         "lang": this.lang
@@ -249,7 +249,7 @@ export default {
         },
         async likeProduct(product_id) {
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
                     product_id: product_id,
                 },
                     {
@@ -298,7 +298,7 @@ export default {
         },
         async updateQty(product_id, qty,) {
             try {
-                const response = await axios.put(`https://becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
                     qty: qty,
                     product_id: product_id,
                 },
@@ -345,7 +345,7 @@ export default {
         async addProductToCart(product_id, qty,) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                     qty: qty,
                     type: 'add',
                 },

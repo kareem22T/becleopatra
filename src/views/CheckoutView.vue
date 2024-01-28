@@ -214,7 +214,7 @@ export default {
         async getCart(lang) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -268,7 +268,7 @@ export default {
         async getCartPrice() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCheckoutDetails` + (this.coupon ? '?coupon_code=' + this.coupon : ''),
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCheckoutDetails` + (this.coupon ? '?coupon_code=' + this.coupon : ''),
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -320,7 +320,7 @@ export default {
         async addOrder() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/carts/checkout`,
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/checkout`,
                     {
                         coupon_code: this.coupon
                     },
@@ -391,7 +391,7 @@ export default {
         },
         async checkCoupon(code, shipping_method) {
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/carts/getCartDetails/coupons/check`,
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/getCartDetails/coupons/check`,
                     {
                         code: code,
                         shipping_method: shipping_method

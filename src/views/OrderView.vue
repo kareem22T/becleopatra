@@ -141,7 +141,7 @@ export default {
         async getOrder() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/orders/getOrderDetails?order_id=${this.$route.params.id}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/orders/getOrderDetails?order_id=${this.$route.params.id}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),

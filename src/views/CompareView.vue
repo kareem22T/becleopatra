@@ -203,7 +203,7 @@ export default {
             } else {
                 $('.loader').fadeIn().css('display', 'flex')
                 try {
-                    const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
+                    const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                         qty: qty,
                         type: 'add',
                     },

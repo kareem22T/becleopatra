@@ -459,7 +459,7 @@ export default {
 
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/logout`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/logout`, {
                 },
                     {
                         headers: {
@@ -520,7 +520,7 @@ export default {
         },
         async getSugesstions() {
             try {
-                const response = await axios.get(`https://becleopatra.com/api/products/getSearchProducts?search=${this.search}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/products/getSearchProducts?search=${this.search}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -559,7 +559,7 @@ export default {
         async getCart() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -588,7 +588,7 @@ export default {
         },
         async getSubCategories(id) {
             try {
-                const response = await axios.get(`https://becleopatra.com/api/categories/getSubCategories?category_id=${id}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/categories/getSubCategories?category_id=${id}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
@@ -623,7 +623,7 @@ export default {
         async getCategories() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/categories/getAll`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/categories/getAll`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),

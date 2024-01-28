@@ -94,7 +94,7 @@ export default {
         async add() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/addresses/add`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/addresses/add`, {
                     building: this.building,
                     street: this.street,
                     floor: this.floor,

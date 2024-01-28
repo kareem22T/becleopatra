@@ -205,7 +205,7 @@ export default {
         async addProductToCart(product_id, qty,) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                     qty: qty,
                     type: 'add',
                 },
@@ -265,7 +265,7 @@ export default {
         },
         async updateQty(product_id, qty,) {
             try {
-                const response = await axios.put(`https://becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
                     qty: qty,
                     product_id: product_id,
                 },
@@ -313,7 +313,7 @@ export default {
         async fetchProducts() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/products/getSearchProducts?product_name=${this.search}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/products/getSearchProducts?product_name=${this.search}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -435,7 +435,7 @@ export default {
         },
         async likeProduct(product_id) {
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
                     product_id: product_id,
                 },
                     {
@@ -484,7 +484,7 @@ export default {
         },
         async getCart() {
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),

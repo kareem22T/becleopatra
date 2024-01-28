@@ -47,7 +47,7 @@ export default {
         async getTerms() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/settings/termsAndConditions`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings/termsAndConditions`,
                 {
                     headers: {
                         "lang": this.lang

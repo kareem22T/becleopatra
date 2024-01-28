@@ -48,7 +48,7 @@ export default {
         async getFaq() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/settings/faqs`, 
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings/faqs`, 
                 {
                     headers: {
                         'Referrer-Policy': 'strict-origin-when-cross-origin',

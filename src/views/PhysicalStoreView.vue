@@ -261,7 +261,7 @@ export default {
         },
         async likeProduct(product_id) {
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/favourites/addOrRemoveProduct?product_id=${product_id}`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct?product_id=${product_id}`, {
                 },
                     {
                         headers: {
@@ -336,7 +336,7 @@ export default {
             } else {
                 $('.loader').fadeIn().css('display', 'flex')
                 try {
-                    const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
+                    const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                         qty: qty,
                         type: 'add',
                     },
@@ -395,7 +395,7 @@ export default {
         },
         async getCart() {
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),

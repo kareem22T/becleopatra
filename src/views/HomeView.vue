@@ -3,9 +3,9 @@
         <!-- START SECTION BANNER -->
         <div class="banner_section slide_medium shop_banner_slider staggered-animation-wrap">
             <div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item background_bg active" data-img-src="/assets/images/menu_banner1.jpeg"
-                        style="background-image: url(&quot;assets/images/menu_banner1.jpeg&quot;);">
+                <div class="carousel-inner" v-if="home_content && home_content.products_ads && home_content.products_ads.length > 0">
+                    <div  v-for="item in home_content.products_ads" :key="item.id" class="carousel-item background_bg active" :data-img-src="item.image"
+                    :style="{ backgroundImage: 'url(\'' + item.image + '\')' }">
                         <div class="banner_slide_content">
                             <div class="container"><!-- STRART CONTAINER -->
                                 <div class="row">
@@ -20,54 +20,7 @@
                                                 data-animation="slideInLeft" data-animation-delay="1s"
                                                 style="animation-delay: 1s; opacity: 1;color: #fff">Luxery Perfume</h2>
                                             <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
-                                                href="shop-left-sidebar.html" data-animation="slideInLeft"
-                                                data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">Shop
-                                                Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- END CONTAINER-->
-                        </div>
-                    </div>
-                    <div class="carousel-item background_bg" data-img-src="/assets/images/menu_banner2.jpeg"
-                        style="background-image: url(&quot;assets/images/menu_banner2.jpeg&quot;);">
-                        <div class="banner_slide_content">
-                            <div class="container"><!-- STRART CONTAINER -->
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="banner_content overflow-hidden">
-                                            <h5 class="mb-3 staggered-animation font-weight-light animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="0.5s"
-                                                style="animation-delay: 0.5s; opacity: 1;">50% off in all products</h5>
-                                            <h2 class="staggered-animation animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="1s"
-                                                style="animation-delay: 1s; opacity: 1;">Self Care</h2>
-                                            <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
-                                                href="shop-left-sidebar.html" data-animation="slideInLeft"
-                                                data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">Shop
-                                                Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- END CONTAINER-->
-                        </div>
-                    </div>
-                    <div class="carousel-item background_bg" data-img-src="/assets/images/menu_banner3.jpeg"
-                        style="background-image: url(&quot;assets/images/menu_banner3.jpeg&quot;);">
-                        <div class="banner_slide_content">
-                            <div class="container"><!-- STRART CONTAINER -->
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="banner_content overflow-hidden">
-                                            <h5 class="mb-3 staggered-animation font-weight-light animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="0.5s"
-                                                style="animation-delay: 0.5s; opacity: 1;">Taking your Viewing Experience to
-                                                Next Level</h5>
-                                            <h2 class="staggered-animation animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="1s"
-                                                style="animation-delay: 1s; opacity: 1;">Summer Sale</h2>
-                                            <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
-                                                href="shop-left-sidebar.html" data-animation="slideInLeft"
+                                                :href="`product/${item.id}`" data-animation="slideInLeft"
                                                 data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">Shop
                                                 Now</a>
                                         </div>
@@ -84,23 +37,6 @@
             </div>
         </div>
         <!-- END SECTION BANNER -->
-
-        <div class="section pb_20" v-if="home_content && home_content.products_ads && home_content.products_ads.length > 0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6" v-for="item in home_content.products_ads" :key="item.id">
-                        <div class="single_banner">
-                            <img :src="item.image" alt="shop_banner_img1">
-                            <div class="single_banner_info">
-                                <!-- <h5 class="single_bn_title1">Title</h5>
-                                <h3 class="single_bn_title">Sale</h3> -->
-                                <a :href="`/product/${item.id}`" class="single_bn_link">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="section small_pt" style="padding-bottom: 0;">
             <div class="container">
@@ -625,7 +561,7 @@ export default {
         async getHomeContent() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/home`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/home`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -671,7 +607,7 @@ export default {
         },
         async likeProduct(product_id) {
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct`, {
                     product_id: product_id,
                 },
                     {
@@ -720,7 +656,7 @@ export default {
         },
         async updateQty(product_id, qty,) {
             try {
-                const response = await axios.put(`https://becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`, {
                     qty: qty,
                     product_id: product_id,
                 },
@@ -768,7 +704,7 @@ export default {
         async addProductToCart(product_id, qty,) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/carts/addProductToCart?product_id=${product_id}`, {
                     qty: qty,
                     type: 'add',
                 },

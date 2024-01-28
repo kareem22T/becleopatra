@@ -150,7 +150,7 @@ export default {
         async getCart() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://becleopatra.com/api/users/carts/getCartDetails`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/carts/getCartDetails`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -201,7 +201,7 @@ export default {
         async deleteProductToCart(product_id) {
             $('.loader').fadeIn()
             try {
-                const response = await axios.delete(`https://becleopatra.com/api/users/carts/deleteProductFromCart?product_id=${product_id}`,
+                const response = await axios.delete(`https://admin.becleopatra.com/api/users/carts/deleteProductFromCart?product_id=${product_id}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -257,7 +257,7 @@ export default {
         },
         async updateQty(product_id, qty) {
             try {
-                const response = await axios.put(`https://becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`,
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`,
                 {},
                     {
                         headers: {
