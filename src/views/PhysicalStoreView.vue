@@ -62,7 +62,6 @@
                                     <i class="fa-regular fa-star"></i></div>
                                 ( 3 {{ lang == 'en' ? "Reviews" : "مراجعات" }} ) 
                             </div>
-                            <a href="/compare" @click.prevent="addProductToCompare(item)" class="" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px; text-decoration: none; color: rgb(4, 113, 173);height: auto;width: auto;flex-direction: revert;gap: 10px !important;justify-content: start;"><i class="fa-solid fa-arrow-right-arrow-left"></i><span>{{ lang == "ar" ? "اضافة الي المقارنة" : "Add to Compare" }}</span></a>
                             <div>
                                 <div class="price">
                                     <h1 v-if="item.price_after_discount">{{ item.price_after_discount ? item.price_after_discount.toLocaleString() : '' }}</h1>

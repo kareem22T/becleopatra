@@ -38,9 +38,6 @@
                                                 <li class="add-to-cart"
                                                     @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
                                                             class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                <li><a href="shop-compare.html"
-                                                        @click.prevent="addProductToCompare(product)"
-                                                        class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                 <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                             class="icon-magnifier-add"></i></a></li>
                                                 <li><a href="" class="wish_btn"
@@ -145,7 +142,6 @@
                                         <div class="cart_btn">
                                             <button class="btn btn-fill-out btn-addtocart" type="button" @click="addProductToCart(selectedProduct.id, selectedProductQty)"><i
                                                     class="icon-basket-loaded"></i> Add to cart</button>
-                                            <a class="add_compare" href="#"><i class="icon-shuffle" @click.prevent="addProductToCompare(selectedProduct)"></i></a>
                                             <a class="add_wishlist" href="#" @click.prevent="likeProduct(selectedProduct.id)"><i class="icon-heart"></i></a>
                                         </div>
                                     </div>

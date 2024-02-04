@@ -11,14 +11,6 @@
                                 <div class="row">
                                     <div class="col-lg-7 col-9">
                                         <div class="banner_content overflow-hidden">
-                                            <h5 class="mb-3 staggered-animation font-weight-light animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="0.5s"
-                                                style="animation-delay: 0.5s; opacity: 1;color: #fff">Get up to 50% off
-                                                Today Only!
-                                            </h5>
-                                            <h2 class="staggered-animation animated slideInLeft"
-                                                data-animation="slideInLeft" data-animation-delay="1s"
-                                                style="animation-delay: 1s; opacity: 1;color: #fff">Luxery Perfume</h2>
                                             <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
                                                 :href="`product/${item.id}`" data-animation="slideInLeft"
                                                 data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">Shop
@@ -87,9 +79,6 @@
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
                                                                     class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                        <li><a href="shop-compare.html"
-                                                                @click.prevent="addProductToCompare(product)"
-                                                                class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -142,9 +131,6 @@
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
                                                                     class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                        <li><a href="shop-compare.html"
-                                                                @click.prevent="addProductToCompare(product)"
-                                                                class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -197,9 +183,6 @@
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
                                                                     class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                                        <li><a href="shop-compare.html"
-                                                                @click.prevent="addProductToCompare(product)"
-                                                                class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -283,8 +266,6 @@
                                         <ul class="list_none pr_action_btn">
                                             <li class="add-to-cart" @click.prevent="addProductToCart(product.id, 1)"><a
                                                     href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
-                                            <li><a href="shop-compare.html" @click.prevent="addProductToCompare(product)"
-                                                    class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                             <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                         class="icon-magnifier-add"></i></a></li>
                                             <li><a href="" class="wish_btn" :class="product.user_favourite ? 'active' : ''"
@@ -379,7 +360,6 @@
                                         <div class="cart_btn">
                                             <button class="btn btn-fill-out btn-addtocart" type="button" @click="addProductToCart(selectedProduct.id, selectedProductQty)"><i
                                                     class="icon-basket-loaded"></i> Add to cart</button>
-                                            <a class="add_compare" href="#"><i class="icon-shuffle" @click.prevent="addProductToCompare(selectedProduct)"></i></a>
                                             <a class="add_wishlist" href="#" @click.prevent="likeProduct(selectedProduct.id)"><i class="icon-heart"></i></a>
                                         </div>
                                     </div>

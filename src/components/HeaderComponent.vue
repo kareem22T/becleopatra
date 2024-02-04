@@ -216,16 +216,14 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <ul class="contact_detail text-center text-lg-start">
-                                <li><i class="ti-mobile"></i><span>123-456-7890</span></li>
+                            <ul class="contact_detail text-center text-lg-start" v-if="settings">
+                                <li><i class="ti-mobile"></i><span>{{ settings.phone }}</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="text-center text-md-end">
                             <ul class="header_list">
-                                <li><router-link to="/compare"><i class="ti-control-shuffle"></i><span>Compare</span></router-link>
-                                </li>
                                 <li><router-link to="/my-wishlist"><i class="ti-heart"></i><span>Wishlist</span></router-link></li>
 
                                 <li  v-if="user == null">
@@ -388,7 +386,8 @@ export default {
             showLangMore: false,
             categories: null,
             categoriesWithSub: null,
-            referral_code: null
+            referral_code: null,
+            settings: null
         }
     },
     methods: {
@@ -400,6 +399,52 @@ export default {
             const referralCode = urlParams.get('referral_code');
             if (referralCode) {
                 localStorage.setItem("referral_code", referralCode)
+            }
+        },
+        async getSettings() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.settings = response.data.data
+                    // let categories = this.categories
+                    // let categoriesWithSub = []
+
+                    //     categories.forEach(category => {
+                    //         this.getSubCategories(category.id).then(()=> {
+                    //             categoriesWithSub.push(category.sub_categories)
+                    //         })
+                    //     })
+                    //     this.categories = categoriesWithSub
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
             }
         },
         changeLang() {
@@ -721,6 +766,7 @@ export default {
         this.getHomeData()
         this.checkReferralCode()
         this.getCategories()
+        this.getSettings()
     },
 }
 </script>

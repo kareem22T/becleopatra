@@ -30,9 +30,8 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="widget">
                             <div class="footer_logo">
-                                <a href="#"><img src="/assets/images/logo_light.png" alt="logo"></a>
+                                <a href="#"><img src="/assets/images/logo_dark.png" alt="logo"></a>
                             </div>
-                            <p>If you are going to use of Lorem Ipsum need to be sure there isn't hidden of text</p>
                         </div>
                         <div class="widget">
                             <ul class="social_icons social_white">
@@ -48,23 +47,16 @@
                         <div class="widget">
                             <h6 class="widget_title">Useful Links</h6>
                             <ul class="widget_links">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">Location</a></li>
-                                <li><a href="#">Affiliates</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><router-link to="/about-us">About Us</router-link></li>
+                                <li><router-link to="/contact-us">Contact</router-link></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-6">
                         <div class="widget">
                             <h6 class="widget_title">Category</h6>
-                            <ul class="widget_links">
-                                <li><a href="#">Men</a></li>
-                                <li><a href="#">Woman</a></li>
-                                <li><a href="#">Kids</a></li>
-                                <li><a href="#">Best Saller</a></li>
-                                <li><a href="#">New Arrivals</a></li>
+                            <ul class="widget_links" v-if="categories && categories.length > 0">
+                                <li v-for="category in categories" :key="category.id"><a :href="`/category/${category.sub_categories[0].id}`">{{category.name}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -73,10 +65,8 @@
                             <h6 class="widget_title">My Account</h6>
                             <ul class="widget_links">
                                 <li><a href="#">My Account</a></li>
-                                <li><a href="#">Discount</a></li>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Orders History</a></li>
-                                <li><a href="#">Order Tracking</a></li>
+                                <li><router-link to="/my-orders">Orders History</router-link></li>
+                                <li><router-link to="/my-orders">Order Tracking</router-link></li>
                             </ul>
                         </div>
                     </div>
@@ -84,17 +74,17 @@
                         <div class="widget">
                             <h6 class="widget_title">Contact Info</h6>
                             <ul class="contact_info contact_info_light">
-                                <li>
+                                <li v-if="settings">
                                     <i class="ti-location-pin"></i>
-                                    <p>123 Street, Old Trafford, New South London , UK</p>
+                                    <p>{{settings.address}}</p>
                                 </li>
-                                <li>
+                                <li v-if="settings">
                                     <i class="ti-email"></i>
-                                    <a href="mailto:info@sitename.com">info@sitename.com</a>
+                                    <a :href="`mailto:${settings.email}`">{{settings.email}}</a>
                                 </li>
-                                <li>
+                                <li v-if="settings">
                                     <i class="ti-mobile"></i>
-                                    <p>+ 457 789 789 65</p>
+                                    <p>{{settings.phone}}</p>
                                 </li>
                             </ul>
                         </div>
@@ -104,35 +94,123 @@
         </div>
         <div class="bottom_footer border-top-tran">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="mb-md-0 text-center text-md-start">© 2020 All Rights Reserved by Bestwebcreator</p>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="footer_payment text-center text-lg-end">
-                            <li><a href="#"><img src="/assets/images/visa.png" alt="visa"></a></li>
-                            <li><a href="#"><img src="/assets/images/discover.png" alt="discover"></a></li>
-                            <li><a href="#"><img src="/assets/images/master_card.png" alt="master_card"></a></li>
-                            <li><a href="#"><img src="/assets/images/paypal.png" alt="paypal"></a></li>
-                            <li><a href="#"><img src="/assets/images/amarican_express.png" alt="amarican_express"></a></li>
-                        </ul>
-                    </div>
-                </div>
+                    <p class="mb-md-0 w-100 text-center text-md-start">All Rights reserved by El Karma Co. 2024</p>
             </div>
         </div>
     </footer>
 </template>
 
 <script>
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
+
+
+import axios from 'axios';
+
 export default {
     name: 'MainFooter',
     data() {
         return {
             footer_data: null,
+            categories: null,
+            settings: null,
             lang: "en"
         }
     },
     methods: {
+        async getCategories() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/categories/getAll`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.categories = response.data.data
+                    // let categories = this.categories
+                    // let categoriesWithSub = []
+
+                    //     categories.forEach(category => {
+                    //         this.getSubCategories(category.id).then(()=> {
+                    //             categoriesWithSub.push(category.sub_categories)
+                    //         })
+                    //     })
+                    //     this.categories = categoriesWithSub
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
+            }
+        },
+        async getSettings() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.settings = response.data.data
+                    // let categories = this.categories
+                    // let categoriesWithSub = []
+
+                    //     categories.forEach(category => {
+                    //         this.getSubCategories(category.id).then(()=> {
+                    //             categoriesWithSub.push(category.sub_categories)
+                    //         })
+                    //     })
+                    //     this.categories = categoriesWithSub
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
+            }
+        },
         setLangCookies() {
             let langCheck = document.cookie.indexOf('lang')
 
@@ -181,6 +259,8 @@ export default {
     },
     created() {
         this.getHomeData()
+        this.getCategories()
+        this.getSettings()
     },
 }
 </script>

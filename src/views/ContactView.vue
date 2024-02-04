@@ -23,7 +23,7 @@
 <!-- START SECTION CONTACT -->
 <div class="section pb_70">
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="settings">
             <div class="col-xl-4 col-md-6">
                 <div class="contact_wrap contact_style3">
                     <div class="contact_icon">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="contact_text">
                         <span>Address</span>
-                        <p>123 Street, Old Trafford, London, UK</p>
+                        <p>{{ settings.address }}</p>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="contact_text">
                         <span>Email Address</span>
-                        <a href="mailto:info@sitename.com">info@yourmail.com </a>
+                        <a :href="`mailto:${settings.email}`">{{ settings.email }}</a>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="contact_text">
                         <span>Phone</span>
-                        <p>+ 457 789 789 65</p>
+                        <p>{{ settings.phone }}</p>
                     </div>
                 </div>
             </div>
@@ -123,11 +123,59 @@ export default {
             email: null,
             phone: null,
             msg: null,
+            settings: null,
             lang: "en"
         }
     },
     methods: {
-                setLangCookies() {
+        async getSettings() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/settings`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.settings = response.data.data
+                    // let categories = this.categories
+                    // let categoriesWithSub = []
+
+                    //     categories.forEach(category => {
+                    //         this.getSubCategories(category.id).then(()=> {
+                    //             categoriesWithSub.push(category.sub_categories)
+                    //         })
+                    //     })
+                    //     this.categories = categoriesWithSub
+
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                $('.loader').fadeOut()
+                console.error(error);
+            }
+        },
+
+        setLangCookies() {
             let langCheck = document.cookie.indexOf('lang')
 
             this.is_cookies = langCheck >= 0 ? true : false
@@ -231,6 +279,7 @@ export default {
     },
     created() {
         this.getHomeData()
+        this.getSettings()
     },
 }
 </script>
