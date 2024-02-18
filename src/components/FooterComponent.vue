@@ -64,7 +64,7 @@
                         <div class="widget">
                             <h6 class="widget_title">My Account</h6>
                             <ul class="widget_links">
-                                <li><a href="#">My Account</a></li>
+                                <li><a href="/edit-profile">My Account</a></li>
                                 <li><router-link to="/my-orders">Orders History</router-link></li>
                                 <li><router-link to="/my-orders">Order Tracking</router-link></li>
                             </ul>
