@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>Wishlist</h1>
+                            <h1>{{ lang == "en" ? "Wishlist" : "المفضلة" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">Wishlist</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Wishlist" : "المفضلة" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -30,23 +30,23 @@
                                 <thead>
                                     <tr>
                                         <th class="product-thumbnail">&nbsp;</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
+                                        <th class="product-name">{{ lang == "en" ? "Product" : "المنج" }}</th>
+                                        <th class="product-price">{{ lang == "en" ? "Price" : "السعر" }}</th>
                                         <th class="product-add-to-cart"></th>
-                                        <th class="product-remove">Remove</th>
+                                        <th class="product-remove">{{ lang == "en" ? "Remove" : "حذف" }}</th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="wishlist && wishlist.length > 0">
                                     <tr  v-for="item in wishlist" :key="item.id">
                                         <td class="product-thumbnail"><a :href="'/product/' + item.id" target="_blank"><img :src="item.first_image" alt="product1"></a></td>
                                         <td class="product-name" data-title="Product"><a :href="'/product/' + item.id" target="_blank">{{item.name}}</a></td>
-                                        <td class="product-price" data-title="Price">{{ item.sale_price ? item.sale_price : item.regular_price }} EGP</td>
-                                        <td class="product-add-to-cart"><a href="#" @click.prevent="addProductToCart(item.id, 1)" class="btn btn-fill-out"><i class="icon-basket-loaded"></i> Add to Cart</a></td>
+                                        <td class="product-price" data-title="Price">{{ item.sale_price ? item.sale_price : item.regular_price }} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</td>
+                                        <td class="product-add-to-cart"><a href="#" @click.prevent="addProductToCart(item.id, 1)" class="btn btn-fill-out"><i class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</a></td>
                                         <td class="product-remove" data-title="Remove"><a href="#" @click.prevent="removeProductFromWishlist(item.id)"><i class="ti-close"></i></a></td>
                                     </tr>
                                 </tbody>
                                 <tbody v-if="!wishlist || wishlist.length == 0">
-                                    <td colspan="6" style="text-align: center;padding: 10px;">Your wishlist is Empty</td>
+                                    <td colspan="6" style="text-align: center;padding: 10px;">{{ lang == "en" ? "Your wishlist is Empty" : "المفضلة فارغة" }}</td>
                                 </tbody>
 
                             </table>
@@ -191,7 +191,7 @@ export default {
         async removeProductFromWishlist(product_id) {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct?product_id=${product_id}`, {
+                const response = await axios.post(`https://admin.becleopatra.com/api/users/favourites/addOrRemoveProduct?product_id=${product_id}`, {}, {
                 },
                     {
                         headers: {

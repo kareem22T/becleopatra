@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>My Cart</h1>
+                            <h1>{{ lang == 'en' ? "My Cart" : "العربة" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">My Cart</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? "Home" : "الرئيسي" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? "Pages" : "الصفحات" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == 'en' ? "My Cart" : "العربة" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -30,11 +30,11 @@
                                 <thead>
                                     <tr>
                                         <th class="product-thumbnail">&nbsp;</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
-                                        <th class="product-price">Quantity</th>
-                                        <th class="product-stock-status">Total Prices</th>
-                                        <th class="product-remove">Remove</th>
+                                        <th class="product-name">{{ lang == 'en' ? "Product" : "المنتجات" }}</th>
+                                        <th class="product-price">{{ lang == 'en' ? "Price" : "الاسعار" }}</th>
+                                        <th class="product-price">{{ lang == 'en' ? "Quantity" : "الكمية" }}</th>
+                                        <th class="product-stock-status">{{ lang == 'en' ? "Total Prices" : "مجموع الاسعار" }}</th>
+                                        <th class="product-remove">{{ lang == 'en' ? "Remove" : "حذف" }}</th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="cart && cart.length > 0">
@@ -51,17 +51,17 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="product-price" data-title="Price">{{item.quantity_price}} EGP</td>
+                                        <td class="product-price" data-title="Price">{{item.quantity_price}} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</td>
                                         <td class="product-remove" data-title="Remove"><a href="#" @click.prevent="deleteProductToCart(item.id)"><i class="ti-close"></i></a></td>
                                     </tr>
                                 </tbody>
                                 <tbody v-if="!cart || cart.length == 0">
-                                    <td colspan="6" style="text-align: center;padding: 10px;">Your Cart is Empty</td>
+                                    <td colspan="6" style="text-align: center;padding: 10px;">{{ lang == 'en' ? "Your Cart is Empty" : "العربة فارغة" }}</td>
                                 </tbody>
                             </table>
                             <div  v-if="cart && cart.length > 0" style="display: flex; justify-content: space-between;">
-                                <div><h4>Total: {{ total }}</h4></div>
-                                <div><router-link to="/checkout" class="btn btn-fill-out" style="float: right;">Checkout</router-link></div>
+                                <div><h4>{{ lang == 'en' ? "Total" : "المجموع" }}: {{ total }}</h4></div>
+                                <div><router-link to="/checkout" class="btn btn-fill-out" style="float: right;">{{ lang == 'en' ? "Checkout" : "اتمام الشراء" }}</router-link></div>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         },
                     }
                 );

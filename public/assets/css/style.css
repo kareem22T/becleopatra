@@ -8797,3 +8797,49 @@ blockquote p:last-child {
   td {
     vertical-align: middle;
   }
+
+  .ar {
+    direction: rtl !important;
+  }
+
+  .ar *:not(i) {
+    font-family: "Cairo", sans-serif !important;
+  }
+
+  .ar .text-md-end {
+    text-align: left !important;
+  }
+
+  .ar .contact_detail > li, .header_list > li {
+    padding: 2px 0 2px 15px;
+  }
+
+  .ar 
+  .dropdown-toggle::after, .dropdown-toggler::after {
+    border: 0 none;
+  
+    content: "\f3d0";
+  
+    font-family: "Ionicons";
+  
+    margin-right: 5px;
+  
+    vertical-align: middle;
+  
+  }
+
+  .ar 
+  .contact_detail > li a, .header_list > li a {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  .ar .more {
+    position: absolute; top: calc(100% + 1.2rem); right: auto !important; background: rgb(255, 255, 255); z-index: 9999999; padding: 0.5rem; border-radius: 0px; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px 0px; line-height: 2rem; text-align: left; width: clamp(12rem, 10.9091rem + 4.3636vw, 15rem); display: flex; flex-direction: column; justify-content: center; white-space: nowrap;left: 0 !important;text-align: right !important;
+  }
+
+  .more a {
+    display: block !important;
+  }

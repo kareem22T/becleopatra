@@ -5,15 +5,15 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>Contact</h1>
-                        </div>
+                        <h1>{{ lang == 'en' ? "Contact" : "تواصل معنا" }}</h1>
                     </div>
-                    <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">Contact</li>
-                        </ol>
+                </div>
+                <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
+                        <li class="breadcrumb-item active">{{ lang == 'en' ? "Contact" : "تواصل معنا" }}</li>
+                    </ol>
                     </div>
                 </div>
             </div><!-- END CONTAINER-->
@@ -30,7 +30,7 @@
                         <i class="fa fa-map"></i>
                     </div>
                     <div class="contact_text">
-                        <span>Address</span>
+                        <span>{{ lang == "en" ? "Address" : "العنوان" }}</span>
                         <p>{{ settings.address }}</p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <i class="fa fa-envelope"></i>
                     </div>
                     <div class="contact_text">
-                        <span>Email Address</span>
+                        <span>{{ lang == "en" ? "Email Address" : "البريد الالكتروني" }}</span>
                         <a :href="`mailto:${settings.email}`">{{ settings.email }}</a>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <i class="fa fa-phone"></i>
                     </div>
                     <div class="contact_text">
-                        <span>Phone</span>
+                        <span>{{ lang == "en" ? "phone" : "رقم الهاتف" }}</span>
                         <p>{{ settings.phone }}</p>
                     </div>
                 </div>
@@ -68,26 +68,25 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="heading_s1">
-                    <h2>Get In touch</h2>
+                    <h2>{{ lang == "en" ? "Get In touch" : "كن علي تواصل معنا" }}</h2>
                 </div>
-                <p class="leads">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
                 <div class="field_form">
                     <form method="post" name="enq">
                         <div class="row">
                             <div class="form-group col-md-6 mb-3">
-                                <input required="" placeholder="Enter Name *" id="first-name" class="form-control" name="name" type="text" v-model="name">
+                                <input required="" :placeholder="lang == 'en' ? 'Enter Name *' : 'الاسم'" id="first-name" class="form-control" name="name" type="text" v-model="name">
                             </div>
                             <div class="form-group col-md-6 mb-3">
-                                <input required="" placeholder="Enter Phone No. *" id="phone" class="form-control" name="phone" v-model="phone">
+                                <input required="" :placeholder="lang == 'en' ? 'Enter Phone No. *' : 'رقم الهاتف'"  id="phone" class="form-control" name="phone" v-model="phone">
                             </div>
                             <div class="form-group col-md-12 mb-3">
-                                <input required="" placeholder="Enter Email *" id="email" class="form-control" name="email" type="email" v-model="email">
+                                <input required="" :placeholder="lang == 'en' ? 'Enter Email *' : 'البريد الالكتروني'" id="email" class="form-control" name="email" type="email" v-model="email">
                             </div>
                             <div class="form-group col-md-12 mb-3">
-                                <textarea required="" placeholder="Message *" id="description" class="form-control" name="message" rows="4" v-model="msg"></textarea>
+                                <textarea required="" :placeholder="lang == 'en' ? 'Message *' : 'الرسالة'" id="description" class="form-control" name="message" rows="4" v-model="msg"></textarea>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <button type="submit" title="Submit Your Message!" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit" @click="send()">Send Message</button>
+                                <button type="submit" title="Submit Your Message!" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit" @click="send()">{{ lang == "en" ? "Send Message" : "ارسال" }}</button>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div id="alert-msg" class="alert-msg text-center"></div>

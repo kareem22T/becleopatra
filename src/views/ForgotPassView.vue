@@ -9,7 +9,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
                             <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
                             <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
                             <li class="breadcrumb-item active">{{ lang == 'en' ? 'Account' : 'الحساب' }}</li>
@@ -85,6 +85,7 @@ export default {
                     error.innerHTML = response.data.message
                     document.getElementById('errors').append(error)
                     $('#errors').fadeIn('slow')
+                    sessionStorage.setItem("cached_email_for_reset", email)
                     setTimeout(() => {
                         $('.loader').fadeOut()
                         $('#errors').fadeOut('slow')

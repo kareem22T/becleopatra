@@ -5,13 +5,13 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>{{ "Result for: " +  search}}</h1>
+                            <h1>{{ (lang == 'en' ? "Result for: " : "نتائج بحث: ") +  search}}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Search</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "search" : "بحث" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                             <div class="col-lg-3 col-md-4 col-6"
                                 v-for="product in results" :key="product.id">
                                 <div class="product">
-                                    <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
+                                    <span class="pr_flash bg-success" v-if="product.on_sale">{{ lang == "en" ? "Sale" : "خصم" }}</span>
                                     <div class="product_img">
                                         <a href="shop-product-detail.html">
                                             <img :src="product.first_image" alt="product_img6">
@@ -37,7 +37,7 @@
                                             <ul class="list_none pr_action_btn">
                                                 <li class="add-to-cart"
                                                     @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
-                                                            class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                            class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</a></li>
                                                 <li><a href="shop-compare.html"
                                                         @click.prevent="addProductToCompare(product)"
                                                         class="popup-ajax"><i class="icon-shuffle"></i></a></li>
@@ -54,8 +54,8 @@
                                         <h6 class="product_title"><a href="shop-product-detail.html">{{ product.name
                                         }}</a></h6>
                                         <div class="product_price">
-                                            <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                            <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                            <span class="price">{{ product.regular_price + ( lang == 'en' ? "EGP" : "جنيه مصري" ) }}</span>
+                                            <del v-if="product.on_sale">{{ product.sale_price + ( lang == 'en' ? "EGP" : "جنيه مصري" ) }}</del>
                                         </div>
                                         <!-- <div class="rating_wrap">
                                             <div class="rating">
@@ -125,8 +125,8 @@
                                     <div class="product_description">
                                         <h4 class="product_title"><a :href="`/product/${selectedProduct.id}`">{{selectedProduct.name}}</a></h4>
                                         <div class="product_price" style="float: none">
-                                            <span class="price">{{selectedProduct.sale_price ? selectedProduct.sale_price : selectedProduct.regular_price}} EGP</span>
-                                            <del v-if="selectedProduct.on_sale">{{selectedProduct.sale_price}} EGP</del>
+                                            <span class="price">{{selectedProduct.sale_price ? selectedProduct.sale_price : selectedProduct.regular_price}} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</span>
+                                            <del v-if="selectedProduct.on_sale">{{selectedProduct.sale_price}} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</del>
                                         </div>
                                         <div class="pr_desc">
                                             <p>{{selectedProduct.desc}}</p>
@@ -144,7 +144,7 @@
                                         </div>
                                         <div class="cart_btn">
                                             <button class="btn btn-fill-out btn-addtocart" type="button" @click="addProductToCart(selectedProduct.id, selectedProductQty)"><i
-                                                    class="icon-basket-loaded"></i> Add to cart</button>
+                                                    class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</button>
                                             <a class="add_compare" href="#"><i class="icon-shuffle" @click.prevent="addProductToCompare(selectedProduct)"></i></a>
                                             <a class="add_wishlist" href="#" @click.prevent="likeProduct(selectedProduct.id)"><i class="icon-heart"></i></a>
                                         </div>
@@ -470,7 +470,7 @@ export default {
                 document.getElementById('errors').innerHTML = ''
                 let err = document.createElement('div')
                 err.classList = 'error'
-                err.innerHTML = 'server error try again later'
+                err.innerHTML = 'Please login first'
                 document.getElementById('errors').append(err)
                 $('#errors').fadeIn('slow')
                 $('.loader').fadeOut()

@@ -9,7 +9,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
                             <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
                             <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
                             <li class="breadcrumb-item active">{{ lang == 'en' ? 'Account' : 'الحساب' }}</li>
@@ -46,6 +46,22 @@
                                             <input type="text" name="floor" id="street" class="form-control"
                                             :placeholder="lang == 'en' ? 'Floor Number' : 'رقم الشقة'" 
                                             v-model="floor">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="cities" class="mb-1 pl-2 pr-2 d-bock">{{ lang == 'en' ? 'City' : 'المدينة' }}</label>
+                                            <select name="cities" id="cites" class="form-control" v-model="city_id">
+                                                <option v-for="city in cities" :key="city.id" :value="city.id">
+                                                    {{ city.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="areas" class="mb-1 pl-2 pr-2 d-bock">{{ lang == 'en' ? 'Area' : 'المنطقة' }}</label>
+                                            <select name="areas" id="areas" class="form-control" v-model="area_id">
+                                                <option v-for="area in cities.find(city => city.id == city_id)?.areas" :key="area.id" :value="area.id">
+                                                    {{ area.name }}
+                                                </option>
+                                            </select>
                                         </div>
                                         <div class="form-group mb-3">
                                             <textarea name="floor" id="street" class="form-control"
@@ -87,6 +103,7 @@ export default {
             lat: 30.2544,
             lng: 31.5444,
             notes: null,
+            cities: [],
             lang: "en"
         }
     },
@@ -96,13 +113,11 @@ export default {
             try {
                 const response = await axios.post(`https://admin.becleopatra.com/api/users/addresses/add`, {
                     building: this.building,
+                    city_id: this.city_id,
+                    area_id: this.area_id,
                     street: this.street,
                     floor: this.floor,
                     notes: this.notes,
-                    area_id: this.area_id,
-                    city_id: this.city_id,
-                    lat: this.lat,
-                    lng: this.lng
                 },
                 {
                     headers: {
@@ -123,6 +138,50 @@ export default {
                         $('.loader').fadeOut()
                         this.$router.push('/my-addresses');
                     }, 4000);
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                document.getElementById('errors').innerHTML = ''
+                let err = document.createElement('div')
+                err.classList = 'error'
+                err.innerHTML = 'server error try again later'
+                document.getElementById('errors').append(err)
+                $('#errors').fadeIn('slow')
+                $('.loader').fadeOut()
+
+                setTimeout(() => {
+                    $('#errors').fadeOut('slow')
+                }, 3500);
+
+                console.error(error);
+            }
+        },
+        async getCities() {
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/cities/getCitiesHaveAreas`,
+                {
+                    headers: {
+                        'lang': this.lang
+                    }
+                }
+                );
+                if (response.data.status === true) {
+                    this.cities = response.data.data
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -196,6 +255,7 @@ export default {
 
         },
         getHomeData() {
+            this.getCities();
             this.setLangCookies()
         },
     },

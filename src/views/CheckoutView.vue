@@ -5,14 +5,14 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="page-title">
-                        <h1>Checkout</h1>
+                        <h1>{{ lang == 'en' ? "Checkout" : "اتمام الشراء" }}</h1>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <ol class="breadcrumb justify-content-md-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active">Checkout</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Pages' : 'الصفحات' }}</a></li>
+                        <li class="breadcrumb-item active">{{ lang == 'en' ? 'Checkout' : 'اتمام الشراء' }}</li>
                     </ol>
                 </div>
             </div>
@@ -26,15 +26,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="toggle_info">
-                        <span><i class="fas fa-tag"></i>Have a coupon? <a href="#coupon" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">Click here to enter your code</a></span>
+                        <span><i class="fas fa-tag"></i>{{ lang == 'en' ? 'Have a coupon?' : 'هل لديك قسيمة شراء؟' }} <a href="#coupon" data-bs-toggle="collapse" class="collapsed" aria-expanded="false">{{ lang == 'en' ? 'Click here to enter your code' : 'اضغط هنا لكي تدخل رمز القسيمة' }}</a></span>
                     </div>
                     <div class="panel-collapse collapse coupon_form" id="coupon">
                         <div class="panel-body">
-                            <p>If you have a coupon code, please apply it below.</p>
+                            <p>{{ lang == 'en' ? 'If you have a coupon code, please apply it below.' : 'إذا كان لديك رمز قسيمة، يرجى تطبيقه أدناه.' }}</p>
                             <div class="coupon field_form input-group">
-                                <input type="text" class="form-control" placeholder="Enter Coupon Code.." v-model="coupon">
+                                <input type="text" class="form-control" :placeholder="lang == 'en' ? 'Enter Coupon Code..' : 'ادخل رمز القسيمة'" v-model="coupon">
                                 <div class="input-group-append">
-                                    <button class="btn btn-fill-out btn-sm" type="submit" @click.prevent="this.getCartPrice()">Apply Coupon</button>
+                                    <button class="btn btn-fill-out btn-sm" type="submit" @click.prevent="this.getCartPrice()">{{ lang == 'en' ? 'Apply Coupon' : 'تفعيل الرمز' }}</button>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="heading_s1">
-                        <h4>Billing Details</h4>
+                        <h4>{{ lang == 'en' ? 'Billing Details' : 'تفاصيل الدفع' }}</h4>
                     </div>
                     <form method="post">
                         <div class="form-group mb-3">
@@ -77,47 +77,47 @@
                 <div class="col-md-6">
                     <div class="order_review">
                         <div class="heading_s1">
-                            <h4>Your Orders</h4>
+                            <h4>{{ lang == 'en' ? "Your Orders" : "منتجاتك" }}</h4>
                         </div>
                         <div class="table-responsive order_table">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Total</th>
+                                        <th>{{ lang == 'en' ? 'Product' : 'المنتج' }}</th>
+                                        <th>{{ lang == "en" ? "Total" : "المجموع" }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="item in products" :key="item.id">
                                         <td>{{item.name}}<span class="product-qty">x {{item.qty}}</span></td>
-                                        <td>{{item.quantity_price}} EGP</td>
+                                        <td>{{item.quantity_price}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr v-if="sub_total">
-                                        <th>SubTotal</th>
-                                        <td class="product-subtotal">{{sub_total}} EGP</td>
+                                        <th>{{ lang == 'en' ? 'EGP' : 'المجموع الفرعي' }}</th>
+                                        <td class="product-subtotal">{{sub_total}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                     <tr v-if="value_added_tax">
-                                        <th>Tax</th>
-                                        <td class="product-subtotal">{{value_added_tax}} EGP</td>
+                                        <th>{{ lang == 'en' ? 'Tax' : 'الضريبة' }}</th>
+                                        <td class="product-subtotal">{{value_added_tax}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                     <tr v-if="delivery_price">
-                                        <th>Delivery Price</th>
-                                        <td class="product-subtotal">{{delivery_price}} EGP</td>
+                                        <th>{{ lang == 'en' ? 'Delivery Price' : 'مصاريف الدفع' }}</th>
+                                        <td class="product-subtotal">{{delivery_price}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                     <tr v-if="coupon_discount">
-                                        <th>Discount</th>
-                                        <td class="product-subtotal">{{coupon_discount}} EGP</td>
+                                        <th>{{ lang == 'en' ? 'Discount' : 'الخصم' }}</th>
+                                        <td class="product-subtotal">{{coupon_discount}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                     <tr v-if="total_price">
-                                        <th>Total</th>
-                                        <td class="product-subtotal">{{total_price}} EGP</td>
+                                        <th>{{ lang == 'en' ? 'Total' : 'المجموع' }}</th>
+                                        <td class="product-subtotal">{{total_price}} {{ lang == 'en' ? 'EGP' : 'جنيه مصري' }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <a href="#" class="btn btn-fill-out btn-block" @click.prevent="addOrder()">Place Order</a>
+                        <a href="#" class="btn btn-fill-out btn-block" @click.prevent="addOrder()">{{ lang == 'en' ? 'Place Order' : 'اتمام الطلب' }}</a>
                     </div>
                 </div>
             </div>

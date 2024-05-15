@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>Register</h1>
+                            <h1>{{ lang == "en" ? "Register" : "تسجيل" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">Register</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">>{{ lang == "en" ? "Pages" : "الصفحات" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Register" : "تسجيل" }}</li>
                         </ol>
                     </div>
                 </div>

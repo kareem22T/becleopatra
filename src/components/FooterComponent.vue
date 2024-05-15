@@ -35,26 +35,48 @@
                         </div>
                         <div class="widget">
                             <ul class="social_icons social_white">
-                                <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                                <li><a href="#"><i class="ion-social-youtube-outline"></i></a></li>
-                                <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                <li v-if="settings && settings.facebook"><a :href="settings.facebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="25" height="25" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+                                    </svg>
+                                </a></li>
+                                <li v-if="settings && settings.instagram"><a :href="settings.instagram">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="25" height="25" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
+                                    <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                    <path d="M16.5 7.5l0 .01" />
+                                    </svg>
+                                </a></li>
+                                <li v-if="settings && settings.tiktok"><a :href="settings.tiktok">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-tiktok" width="25" height="25" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z" />
+                                    </svg>
+                                </a></li>
+                                <li v-if="settings && settings.twitter"><a :href="settings.twitter">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-x" width="25" height="25" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+                                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+                                    </svg>
+                                </a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-6">
                         <div class="widget">
-                            <h6 class="widget_title">Useful Links</h6>
+                            <h6 class="widget_title">{{ lang == 'en' ? "Useful Links" : "روابط مهمة" }}</h6>
                             <ul class="widget_links">
-                                <li><router-link to="/about-us">About Us</router-link></li>
-                                <li><router-link to="/contact-us">Contact</router-link></li>
+                                <li><router-link to="/about-us">{{ lang == 'en' ? "About Us" : "من نحن" }}</router-link></li>
+                                <li><router-link to="/contact-us">{{ lang == 'en' ? "Contact Us" : "تواصل معنا" }}</router-link></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-6">
                         <div class="widget">
-                            <h6 class="widget_title">Category</h6>
+                            <h6 class="widget_title">{{ lang == 'en' ? "Category" : "الاقسام" }}</h6>
                             <ul class="widget_links" v-if="categories && categories.length > 0">
                                 <li v-for="category in categories" :key="category.id"><a :href="`/category/${category.sub_categories[0].id}`">{{category.name}}</a></li>
                             </ul>
@@ -62,17 +84,16 @@
                     </div>
                     <div class="col-lg-2 col-md-6 col-sm-6">
                         <div class="widget">
-                            <h6 class="widget_title">My Account</h6>
+                            <h6 class="widget_title">{{ lang == 'en' ? "My Account" : "حسابي" }}</h6>
                             <ul class="widget_links">
-                                <li><a href="/edit-profile">My Account</a></li>
-                                <li><router-link to="/my-orders">Orders History</router-link></li>
-                                <li><router-link to="/my-orders">Order Tracking</router-link></li>
+                                <li><a href="/edit-profile">{{ lang == 'en' ? "My Account" : "حسابي" }}</a></li>
+                                <li><router-link to="/my-orders">{{ lang == 'en' ? "Orders History" : "سجل الطلبات" }}</router-link></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="widget">
-                            <h6 class="widget_title">Contact Info</h6>
+                            <h6 class="widget_title">{{ lang == 'en' ? "Contact Info" : "بيانات الاتصال" }}</h6>
                             <ul class="contact_info contact_info_light">
                                 <li v-if="settings">
                                     <i class="ti-location-pin"></i>
@@ -126,7 +147,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         },
                     }
                 );
@@ -172,7 +193,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         },
                     }
                 );

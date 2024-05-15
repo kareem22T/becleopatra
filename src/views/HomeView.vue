@@ -13,8 +13,7 @@
                                         <div class="banner_content overflow-hidden">
                                             <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
                                                 :href="`product/${item.id}`" data-animation="slideInLeft"
-                                                data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">Shop
-                                                Now</a>
+                                                data-animation-delay="1.5s" style="animation-delay: 1.5s; opacity: 1;">{{ lang == "en" ? "Shop Now" : "تسوق الان"}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +34,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="heading_s1 text-center">
-                            <h2>Exclusive Products</h2>
+                            <h2>{{ lang == "en" ? "Exclusive Products" : "منتجات حصرية"}}</h2>
                         </div>
                     </div>
                 </div>
@@ -46,18 +45,17 @@
                                 <li class="nav-item" role="presentation"
                                     v-if="home_content && home_content.new_products && home_content.new_products.length > 0">
                                     <a class="nav-link active" id="arrival-tab" data-bs-toggle="tab" href="#arrival"
-                                        role="tab" aria-controls="arrival" aria-selected="true">Latest Products</a>
+                                        role="tab" aria-controls="arrival" aria-selected="true">{{ lang == "en" ? "Latest Products" : "اخر المنتجات"}}</a>
                                 </li>
                                 <li class="nav-item" role="presentation"
                                     v-if="home_content && home_content.best_selling_products && home_content.best_selling_products.length > 0">
                                     <a class="nav-link" id="sellers-tab" data-bs-toggle="tab" href="#sellers" role="tab"
-                                        aria-controls="sellers" aria-selected="false" tabindex="-1">Best Sellers</a>
+                                        aria-controls="sellers" aria-selected="false" tabindex="-1">{{ lang == "en" ? "Best Sellers" : "الافضل"}}</a>
                                 </li>
                                 <li class="nav-item" role="presentation"
                                     v-if="home_content && home_content.recommended_products && home_content.recommended_products.length > 0">
                                     <a class="nav-link" id="featured-tab" data-bs-toggle="tab" href="#featured" role="tab"
-                                        aria-controls="featured" aria-selected="false" tabindex="-1">Recommended
-                                        Products</a>
+                                        aria-controls="featured" aria-selected="false" tabindex="-1">{{ lang == "en" ? "Recommended" : "المقترحة"}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,7 +67,7 @@
                                     <div class="col-lg-3 col-md-4 col-6" v-for="product in home_content.new_products"
                                         :key="product.id">
                                         <div class="product">
-                                            <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
+                                            <span class="pr_flash bg-success" v-if="product.on_sale">{{ lang == "en" ? "Sale" : "خصم"}}</span>
                                             <div class="product_img">
                                                 <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
@@ -78,7 +76,7 @@
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
-                                                                    class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                                    class="icon-basket-loaded"></i>{{ lang == "en" ? "Add To Cart" : "اضافة الي العربة"}}</a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -92,8 +90,8 @@
                                                 <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
-                                                    <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                                    <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                                    <span class="price">{{ product.regular_price + " " +(lang == "en" ? "EGP" : "جنيه مصري ") }}</span>
+                                                    <del v-if="product.on_sale">{{ product.sale_price + " " + (lang == "en" ? "EGP" : "جنيه مصري ") }}</del>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                         <div class="rating">
@@ -121,7 +119,7 @@
                                     <div class="col-lg-3 col-md-4 col-6"
                                         v-for="product in home_content.best_selling_products" :key="product.id">
                                         <div class="product">
-                                            <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
+                                            <span class="pr_flash bg-success" v-if="product.on_sale">{{ lang == "en" ? "Sale" : "خصم"}}</span>
                                             <div class="product_img">
                                                 <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
@@ -130,7 +128,7 @@
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
-                                                                    class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                                    class="icon-basket-loaded"></i> {{ lang == "en" ? "Add To Cart" : "اضافة الي العربة"}}</a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -144,8 +142,8 @@
                                                 <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
-                                                    <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                                    <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                                    <span class="price">{{ product.regular_price + " " +(lang == "en" ? "EGP" : "جنيه مصري ") }}</span>
+                                                    <del v-if="product.on_sale">{{ product.sale_price + " " + (lang == "en" ? "EGP" : "جنيه مصري ") }}</del>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                     <div class="rating">
@@ -173,7 +171,7 @@
                                     <div class="col-lg-3 col-md-4 col-6"
                                         v-for="product in home_content.recommended_products" :key="product.id">
                                         <div class="product">
-                                            <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
+                                            <span class="pr_flash bg-success" v-if="product.on_sale">{{ lang == "en" ? "Sale" : "خصم"}}</span>
                                             <div class="product_img">
                                                 <a :href="`/product/${product.id}`">
                                                     <img :src="product.first_image" alt="product_img6">
@@ -182,7 +180,7 @@
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"
                                                             @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
-                                                                    class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                                    class="icon-basket-loaded"></i> {{ lang == "en" ? "Add To Cart" : "اضافة الي العربة"}}</a></li>
                                                         <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                                     class="icon-magnifier-add"></i></a></li>
                                                         <li><a href="" class="wish_btn"
@@ -196,8 +194,8 @@
                                                 <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                                 }}</a></h6>
                                                 <div class="product_price">
-                                                    <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                                    <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                                    <span class="price">{{ product.regular_price + " " +(lang == "en" ? "EGP" : "جنيه مصري ") }}</span>
+                                                    <del v-if="product.on_sale">{{ product.sale_price + " " + (lang == "en" ? "EGP" : "جنيه مصري ") }}</del>
                                                 </div>
                                                 <!-- <div class="rating_wrap">
                                                     <div class="rating">
@@ -233,7 +231,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="heading_s1 text-center">
-                            <h2>Featured Products</h2>
+                            <h2>{{ lang == "en" ? "Featured Products" : "منتجات مميزة"}}</h2>
                         </div>
                     </div>
                 </div>
@@ -254,10 +252,10 @@
         slidesPerView: 4,
         slidesPerGroup: 4,
     },
-}" :modules="modules" class="deals-slider">
+}" :modules="modules" class="deals-slider" dir="ltr">
                             <swiper-slide class="product" v-for="product in home_content.recommended_products"
                                 :key="product.id" style="width: 264px; margin-right: 20px;">
-                                <span class="pr_flash bg-success" v-if="product.on_sale">Sale</span>
+                                <span class="pr_flash bg-success" v-if="product.on_sale">{{ lang == "en" ? "Sale" : "خصم"}}</span>
                                 <div class="product_img">
                                     <a :href="`/product/${product.id}`">
                                         <img :src="product.first_image" alt="product_img6">
@@ -265,7 +263,7 @@
                                     <div class="product_action_box">
                                         <ul class="list_none pr_action_btn">
                                             <li class="add-to-cart" @click.prevent="addProductToCart(product.id, 1)"><a
-                                                    href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                    href="#"><i class="icon-basket-loaded"></i> {{ lang == "en" ? "Add To Cart" : "اضافة الي العربة"}}</a></li>
                                             <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                         class="icon-magnifier-add"></i></a></li>
                                             <li><a href="" class="wish_btn" :class="product.user_favourite ? 'active' : ''"
@@ -274,11 +272,11 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="product_info">
+                                <div class="product_info" dir="rtl">
                                     <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name }}</a></h6>
                                     <div class="product_price">
-                                        <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                        <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                        <span class="price">{{ product.regular_price + " " +"EGP" }}</span>
+                                        <del v-if="product.on_sale">{{ product.sale_price + " " + "EGP" }}</del>
                                     </div>
                                     <!-- <div class="rating_wrap">
                                 <div class="rating">
@@ -302,8 +300,8 @@
                 </div>
             </div>
         </div>
-        <div class="mfp-bg mfp-ready" @click="showProdDetails = false" v-if="showProdDetails && selectedProduct"></div>
-        <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;"  v-if="showProdDetails && selectedProduct">
+        <div dir="ltr" class="mfp-bg mfp-ready" @click="showProdDetails = false" v-if="showProdDetails && selectedProduct"></div>
+        <div  dir="ltr" class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;"  v-if="showProdDetails && selectedProduct">
             <div class="mfp-container mfp-ajax-holder mfp-s-ready">
                 <div class="mfp-content">
                     <div class="ajax_quick_view">
@@ -359,7 +357,7 @@
                                         </div>
                                         <div class="cart_btn">
                                             <button class="btn btn-fill-out btn-addtocart" type="button" @click="addProductToCart(selectedProduct.id, selectedProductQty)"><i
-                                                    class="icon-basket-loaded"></i> Add to cart</button>
+                                                    class="icon-basket-loaded"></i> {{ lang == "en" ? "Add To Cart" : "اضافة الي العربة"}}</button>
                                             <a class="add_wishlist" href="#" @click.prevent="likeProduct(selectedProduct.id)"><i class="icon-heart"></i></a>
                                         </div>
                                     </div>
@@ -371,7 +369,7 @@
                                     <div class="product_share">
                                         <span>Share:</span>
                                         <ul class="social_icons">
-                                            <li><a :href="`https://www.facebook.com/sharer/sharer.php?u=${this.url}/product/${selectedProduct.id}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                            <li><a :href="`https://www.facebook.com/dialog/feed?app_id=1389892087910588%20&redirect_uri=http://becleopatra.com/product/${selectedProduct.id}%20&link=http://becleopatra.com/product/${selectedProduct.id}%20&picture=${selectedProduct.first_image}%20&caption=${selectedProduct.name}caption%20&description=${selectedProduct.name}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
                                             <li><a :href="`https://twitter.com/intent/tweet?url=${this.url}/product/${selectedProduct.id}&text=${this.caption}`" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
                                             <li><a href="/" @click.prevent="shareOnInstagram()"><i class="fa-brands fa-instagram"></i></a></li>
                                         </ul>
@@ -545,7 +543,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         }
                     }
                 );
@@ -622,7 +620,7 @@ export default {
                 document.getElementById('errors').innerHTML = ''
                 let err = document.createElement('div')
                 err.classList = 'error'
-                err.innerHTML = 'server error try again later'
+                err.innerHTML = 'Please login first'
                 document.getElementById('errors').append(err)
                 $('#errors').fadeIn('slow')
                 $('.loader').fadeOut()

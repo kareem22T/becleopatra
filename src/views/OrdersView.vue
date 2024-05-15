@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>My Orders</h1>
+                            <h1 style="display: flex;">{{ lang == "en" ? "My Orders" : "الطلبات" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">My Orders</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "pages" : "الصفحات" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "My Orders" : "الطلبات" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -29,11 +29,11 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="product-name">Number</th>
-                                        <th class="product-price">Status</th>
-                                        <th class="product-stock-status">Total Prices</th>
-                                        <th class="product-remove">Date</th>
-                                        <th class="product-remove">Control</th>
+                                        <th class="product-name">{{ lang == "en" ? "Number" : "رقم الطلب" }}</th>
+                                        <th class="product-price">{{ lang == "en" ? "Status" : "الحالة" }}</th>
+                                        <th class="product-stock-status">{{ lang == "en" ? "Total Prices" : "مجموع الاسعار" }}</th>
+                                        <th class="product-remove">{{ lang == "en" ? "Date" : "التاريخ" }}</th>
+                                        <th class="product-remove">{{ lang == "en" ? "Control" : "التحكم" }}</th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="orders && orders.length > 0">
@@ -42,12 +42,12 @@
                                         <td><span class="canceled">{{order.status }}</span></td>
                                         <td>{{order.created_at }}</td>
                                         <td>{{order.total_price.toLocaleString()}} {{ lang == 'en' ? 'EGP' : 'جنيه' }}</td>
-                                        <td><router-link :to="`/order/${order.id}`" class="btn btn-fill-out" style="float: right;">View order</router-link></td>
+                                        <td><router-link :to="`/order/${order.id}`" class="btn btn-fill-out" style="float: right;">{{ lang == "en" ? "View order" : "عرض الطلب" }}</router-link></td>
 
                                     </tr>                                
                                 </tbody>
                                 <tbody v-if="!orders || orders.length == 0">
-                                    <td colspan="6" style="text-align: center;padding: 10px;">No orders yet</td>
+                                    <td colspan="6" style="text-align: center;padding: 10px;">{{ lang == "en" ? "No orders yet" : "لا توجد طلبات" }}</td>
                                 </tbody>
                             </table>
                         </div>

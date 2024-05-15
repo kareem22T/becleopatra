@@ -14,6 +14,7 @@ import OrdersView from '@/views/OrdersView.vue'
 import OrderView from '@/views/OrderView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
+import UpdateAddressView from '../views/UpdateAddressView.vue'
 import ForgotPassView from '../views/ForgotPassView.vue'
 import EditProfileView from '../views/EditProfileView.vue'
 import ChangePassView from '../views/ChangePassView.vue'
@@ -160,6 +161,10 @@ const routes = [
     path: '/physical-store/:name/:id',
     component: PhysicalStoreView,
     meta: {type: 1, category_name: 'Physical Store', category_path: 'physical-store'}
+  },
+  {
+    path: '/update-address/:id',
+    component: UpdateAddressView
   },
   {
     path: '/checkout',

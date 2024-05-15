@@ -5,13 +5,13 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>{{ "Products"}}</h1>
+                            <h1>{{ lang == "en" ? "Products" : "المنتجات" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Products</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Products" : "المنتجات" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                                             <ul class="list_none pr_action_btn">
                                                 <li class="add-to-cart"
                                                     @click.prevent="addProductToCart(product.id, 1)"><a href="#"><i
-                                                            class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                            class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</a></li>
                                                 <li><a href="/" @click.prevent="showProdDetails = true;selectedProduct = product;" class="popup-ajax"><i
                                                             class="icon-magnifier-add"></i></a></li>
                                                 <li><a href="" class="wish_btn"
@@ -51,8 +51,8 @@
                                         <h6 class="product_title"><a :href="`/product/${product.id}`">{{ product.name
                                         }}</a></h6>
                                         <div class="product_price">
-                                            <span class="price">{{ product.regular_price + "EGP" }}</span>
-                                            <del v-if="product.on_sale">{{ product.sale_price + "EGP" }}</del>
+                                            <span class="price">{{ product.regular_price + ( lang == 'en' ? "EGP" : "جنيه مصري" ) }}</span>
+                                            <del v-if="product.on_sale">{{ product.sale_price + ( lang == 'en' ? "EGP" : "جنيه مصري" ) }}</del>
                                         </div>
                                         <!-- <div class="rating_wrap">
                                             <div class="rating">
@@ -85,7 +85,7 @@
             <h1 style="margin: 5rem 0; text-align:center;color: #717171;">{{ lang == 'en' ? "No reluts found" : "لا توجد نتائج" }}</h1>
         </div>
         <div class="mfp-bg mfp-ready" @click="showProdDetails = false" v-if="showProdDetails && selectedProduct"></div>
-        <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;"  v-if="showProdDetails && selectedProduct">
+        <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" dir="ltr" tabindex="-1" style="overflow: hidden auto;"  v-if="showProdDetails && selectedProduct">
             <div class="mfp-container mfp-ajax-holder mfp-s-ready">
                 <div class="mfp-content">
                     <div class="ajax_quick_view">
@@ -122,8 +122,8 @@
                                     <div class="product_description">
                                         <h4 class="product_title"><a :href="`/product/${selectedProduct.id}`">{{selectedProduct.name}}</a></h4>
                                         <div class="product_price" style="float: none">
-                                            <span class="price">{{selectedProduct.sale_price ? selectedProduct.sale_price : selectedProduct.regular_price}} EGP</span>
-                                            <del v-if="selectedProduct.on_sale">{{selectedProduct.sale_price}} EGP</del>
+                                            <span class="price">{{selectedProduct.sale_price ? selectedProduct.sale_price : selectedProduct.regular_price}} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</span>
+                                            <del v-if="selectedProduct.on_sale">{{selectedProduct.sale_price}} {{ lang == 'en' ? "EGP" : "جنيه مصري" }}</del>
                                         </div>
                                         <div class="pr_desc">
                                             <p>{{selectedProduct.desc}}</p>
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="cart_btn">
                                             <button class="btn btn-fill-out btn-addtocart" type="button" @click="addProductToCart(selectedProduct.id, selectedProductQty)"><i
-                                                    class="icon-basket-loaded"></i> Add to cart</button>
+                                                    class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</button>
                                             <a class="add_wishlist" href="#" @click.prevent="likeProduct(selectedProduct.id)"><i class="icon-heart"></i></a>
                                         </div>
                                     </div>
@@ -153,7 +153,7 @@
                                     <div class="product_share">
                                         <span>Share:</span>
                                         <ul class="social_icons">
-                                            <li><a :href="`https://www.facebook.com/sharer/sharer.php?u=${this.url}/product/${selectedProduct.id}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                            <li><a :href="`https://www.facebook.com/dialog/feed?app_id=1389892087910588%20&redirect_uri=http://becleopatra.com/product/${selectedProduct.id}%20&link=http://becleopatra.com/product/${selectedProduct.id}%20&picture=${selectedProduct.first_image}%20&caption=${selectedProduct.name}caption%20&description=${selectedProduct.name}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
                                             <li><a :href="`https://twitter.com/intent/tweet?url=${this.url}/product/${selectedProduct.id}&text=${this.caption}`" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
                                             <li><a href="/" @click.prevent="shareOnInstagram()"><i class="fa-brands fa-instagram"></i></a></li>
                                         </ul>
@@ -316,7 +316,7 @@ export default {
         async fetchProducts() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.get(`https://admin.becleopatra.com/api/products/getProductsByType?type=1&sub_category_id=${this.catId}&page=${this.page}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/products/getProductsByType?type=0&sub_category_id=${this.catId}&page=${this.page}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),

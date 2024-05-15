@@ -10,14 +10,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>Login</h1>
+                            <h1>{{ lang == "en" ? "Login" : "تسجيل الدخول" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">Login</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "pages" : "الصفحات" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Login" : "تسجيل الدخول" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                                     <form method="post" @submit.prevent>
                                         <div class="form-group mb-3">
                                             <input type="text" class="form-control" name="email"
-                                                :placeholder="lang == 'en' ? 'Email or Phone Number' : 'البريد الالكتروني او رقم الهاتف'"
+                                                :placeholder="lang == 'en' ? 'Email' : 'البريد الالكتروني او رقم الهاتف'"
                                                 v-model="phone">
                                         </div>
                                         <div class="form-group mb-3">

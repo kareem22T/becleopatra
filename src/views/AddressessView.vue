@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>My Addresses</h1>
+                            <h1>{{ lang == "en" ? "My Addressess" : "عناويني" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Account</a></li>
-                            <li class="breadcrumb-item active">My Addresses</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Account" : "الحساب" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "My Addressess" : "عناويني" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -29,25 +29,27 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="product-name">Full address</th>
-                                        <th class="product-price">Status</th>
-                                        <th class="product-price">Controles</th>
+                                        <th class="product-name">{{ lang == 'en' ? "Full address" : "العنوان كامل"}}</th>
+                                        <th class="product-price">{{ lang == 'en' ? "Status" : "الحالة"}}</th>
+                                        <th class="product-price">{{ lang == 'en' ? "Controles" : "التحكم"}}</th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="addresses && addresses.length > 0">
                                     <tr v-for="item in addresses" :key="item.id">
                                         <td class="product-price" data-title="Price">{{ item.full_address }}</td>
-                                        <td class="product-price" data-title="Price">{{ item.is_default ? "Default Address" : "Normal Address" }}</td>
+                                        <td class="product-price" data-title="Price">{{ item.is_default ? (lang == 'en' ? "Default Address" : "عنوان رئيسي") : (lang == 'en' ? "Normal Address" : "عنوان ثانوي") }}</td>
                                         <td class="product-price" data-title="Price">
-
+                                            <button class="btn btn-sm btn-primary" @click="setDefault(item.id)" :style="lang == 'ar' ? {  marginLeft: '10px'} : null">{{ lang == 'en' ? "Set as default" : "تعين كرئيسي"}}</button>
+                                            <a class="btn btn-sm btn-success" :href="'/update-address/' + item.id">{{ lang == 'en' ? "Edit" : "تعديل"}}</a>
+                                            <button class="btn  btn-sm btn-danger" @click="deleteAddress(item.id)">{{ lang == 'en' ? "Delete" : "حذف"}}</button>
                                         </td>
                                     </tr>
                                 </tbody>
                                 <tbody v-if="!addresses || addresses.length == 0">
-                                    <td colspan="6" style="text-align: center;padding: 10px;">There are no added arddresses then</td>
+                                    <td colspan="6" style="text-align: center;padding: 10px;">{{ lang == 'en' ? "There are no added arddresses then" : "لم يتم اضافة عناوين بعد"  }}</td>
                                 </tbody>
                             </table>
-                            <router-link to="/add-address" class="btn btn-fill-out" style="margin: auto;">Add Address</router-link>
+                            <router-link to="/add-address" class="btn btn-fill-out" style="margin: auto;">{{ lang == 'en' ? "Add Address" : "اضافة عنوان"}}</router-link>
                         </div>
                     </div>
                 </div>
@@ -86,6 +88,7 @@ export default {
             total: 0,
             products: null,
             cards: null,
+            cities: [],
             showMsgPopUp: false,
             isOrderFaild: false,
             cart_data: null,
@@ -236,18 +239,84 @@ export default {
                 console.error(error);
             }
         },
-        async updateQty(product_id, qty) {
+        async setDefault(address_id) {
+            $('.loader').fadeIn()
             try {
-                const response = await axios.put(`https://admin.becleopatra.com/api/users/carts/updateProductQty?product_id=${product_id}&qty=${qty}`,
-                {},
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/addresses/changeDefault`,
+                    {
+                        address_id: address_id
+                    },
                     {
                         headers: {
-                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token')
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": this.lang
                         }
                     },
                 );
                 if (response.data.status === true) {
-                    this.getCart()
+                    document.getElementById('errors').innerHTML = ''
+                    let error = document.createElement('div')
+                    error.classList = 'success'
+                    error.innerHTML = response.data.message
+                    document.getElementById('errors').append(error)
+                    setTimeout(() => {
+                        $('.loader').fadeOut()
+                        window.location.reload()
+                    }, 2000);
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                document.getElementById('errors').innerHTML = ''
+                let err = document.createElement('div')
+                err.classList = 'error'
+                err.innerHTML = 'server error try again later'
+                document.getElementById('errors').append(err)
+                $('#errors').fadeIn('slow')
+                $('.loader').fadeOut()
+
+                setTimeout(() => {
+                    $('#errors').fadeOut('slow')
+                }, 3500);
+
+                console.error(error);
+            }
+        },
+        async deleteAddress(address_id) {
+            $('.loader').fadeIn()
+            try {
+                const response = await axios.delete(`https://admin.becleopatra.com/api/users/addresses/delete?address_id=${address_id}`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": this.lang
+                        }
+                    },
+                );
+                if (response.data.status === true) {
+                    document.getElementById('errors').innerHTML = ''
+                    let error = document.createElement('div')
+                    error.classList = 'success'
+                    error.innerHTML = response.data.message
+                    document.getElementById('errors').append(error)
+                    setTimeout(() => {
+                        $('.loader').fadeOut()
+                        window.location.reload()
+                    }, 2000);
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''

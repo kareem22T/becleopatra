@@ -4,15 +4,15 @@
             <div class="container"><!-- STRART CONTAINER -->
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <div class="page-title">
-                            <h1>Product Detail</h1>
-                        </div>
+
+                    <div class="page-title">
+                        <h1>{{ lang == "en" ? "Product Details" : "تفاصيل المنتج" }}</h1>
+                    </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item active">Product Detail</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Product Details" : "تفاصيل المنتج" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
         <div class="main_content" v-if="product">
 
 <!-- START SECTION SHOP -->
-            <div class="section">
+            <div class="section" dir="ltr">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
@@ -50,7 +50,7 @@
                                 <div class="product_description">
                                     <h4 class="product_title"><a href="#">{{product.name}}</a></h4>
                                     <div class="product_price" style="display: block;float: none;">
-                                        <span class="price">{{product.sale_price ? product.sale_price : product.regular_price}} EGP</span>
+                                        <span class="price">{{product.sale_price ? product.sale_price : product.regular_price}} {{ lang == "en" ? "EGP" : "جنيه مصري" }}</span>
                                         <del v-if="product.sale_price">{{product.regular_price}}</del>
                                     </div>
                                     <div class="pr_desc">
@@ -67,20 +67,20 @@
                                         </div>
                                     </div>
                                     <div class="cart_btn">
-                                        <button @click="addProductToCart(productId, quantity)" class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> Add to cart</button>
+                                        <button @click="addProductToCart(productId, quantity)" class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> {{ lang == 'en' ? "Add to Cart" : "اضافة الي العربة" }}</button>
                                         <a class="add_compare" @click.prevent="addProductToCompare(product)" href="#"><i class="icon-shuffle"></i></a>
                                         <a class="add_wishlist" :class="product.user_favourite ? 'active' : ''" @click="likeProduct(productId)" href="#"><i class="icon-heart"></i></a>
                                     </div>
                                 </div>
                                 <hr>
                                 <ul class="product-meta">
-                                    <li>Category: <a href="#" v-if="product.category">{{product.category.name}}</a></li>
+                                    <li>{{ lang == "en" ? "Category" : "القسم" }}: <a href="#" v-if="product.category">{{product.category.name}}</a></li>
                                 </ul>
 
                                 <div class="product_share">
-                                    <span>Share:</span>
+                                    <span>{{ lang == "en" ? "Share" : "مشاركة" }}:</span>
                                     <ul class="social_icons">
-                                        <li><a :href="`https://www.facebook.com/sharer/sharer.php?u=${this.url}/product/${product.id}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                        <li><a :href="`https://www.facebook.com/dialog/feed?app_id=1389892087910588%20&redirect_uri=http://becleopatra.com/product/${product.id}%20&link=http://becleopatra.com/product/${product.id}%20&picture=${product.first_image}%20&caption=${product.name}caption%20&description=${product.name}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
                                         <li><a :href="`https://twitter.com/intent/tweet?url=${this.url}/product/${product.id}&text=${this.caption}`" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
                                         <li><a href="/" @click.prevent="shareOnInstagram()"><i class="fa-brands fa-instagram"></i></a></li>
                                     </ul>
@@ -262,7 +262,7 @@ export default {
                 if (response.data.status === true) {
                     document.getElementById('errors').innerHTML = ''
                     $('.loader').fadeOut()
-                    this.getHomeContent()
+                    this.getHomeData()
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -284,7 +284,7 @@ export default {
                 document.getElementById('errors').innerHTML = ''
                 let err = document.createElement('div')
                 err.classList = 'error'
-                err.innerHTML = 'server error try again later'
+                err.innerHTML = 'Please login first'
                 document.getElementById('errors').append(err)
                 $('#errors').fadeIn('slow')
                 $('.loader').fadeOut()

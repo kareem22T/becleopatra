@@ -9,7 +9,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
                             <li class="breadcrumb-item"><a href="#">{{ lang == 'en' ? 'Home' : 'الرئيسية' }}</a></li>
                             <li class="breadcrumb-item active">{{ lang == 'en' ? 'Account' : 'الحساب' }}</li>
                         </ol>
@@ -31,6 +31,16 @@
                                         </h3>
                                     </div>
                                     <form method="post" @submit.prevent>
+                                        <div class="form-group mb-3">
+                                            <input type="text" name="email" id="email" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Email' : 'الاسم كامل'" 
+                                            v-model="email" disabled />
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <input type="text" name="phone" id="phone" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Phone' : 'الاسم كامل'" 
+                                            v-model="phone" disabled >
+                                        </div>
                                         <div class="form-group mb-3">
                                             <input type="text" name="name" id="name" class="form-control"
                                             :placeholder="lang == 'en' ? 'Full Name' : 'الاسم كامل'" 
@@ -66,7 +76,9 @@ export default {
         return {
             user: null,
             lang: 'en',
-            name: null
+            name: null,
+            phone: null,
+            email: null,
         }
     },
     methods: {
@@ -179,6 +191,8 @@ export default {
     mounted() {
         this.user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
         this.name = this.user.name
+        this.email = this.user.email
+        this.phone = this.user.phone
         // $('#name').val(this.user.name ? this.user.name : null)
     },
     created() {

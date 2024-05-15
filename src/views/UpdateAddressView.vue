@@ -5,7 +5,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>{{ lang == 'en' ? 'Account' : 'الحساب' }}</h1>
+                            <h1>{{ lang == 'en' ? 'Update Address' : 'تعديل عنوان' }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -27,18 +27,34 @@
                             <div class="login_wrap">
                                 <div class="padding_eight_all bg-white">
                                     <div class="heading_s1">
-                                        <h3 style="text-align: center;">{{ lang == 'en' ? 'Reset your password' : 'اعد ضبط كلمه السر' }}</h3>
-                                        <p style="text-align: center;">{{ lang == 'en' ? 'We will send you an email to reset your password.' : 'سوف نرسل لك بريدًا إلكترونيًا لإعادة تعيين كلمة المرور الخاصة بك.' }}</p>
+                                        <h3 style="text-align: center;">
+                                            {{ lang == 'en' ? 'Update Address' : 'تعديل العنوان' }}
+                                        </h3>
                                     </div>
                                     <form method="post" @submit.prevent>
                                         <div class="form-group mb-3">
-                                            <input type="text" class="form-control" name="code" id="code" :placeholder="lang == 'en' ? 'Activation Code' : 'رمز التحقق'" v-model="reset_code">
+                                            <input type="text" name="street" id="street" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Street' : 'الشارع'" 
+                                            v-model="street">
                                         </div>
                                         <div class="form-group mb-3">
-                                            <input type="text" class="form-control" name="new_password" id="new_password" :placeholder="lang == 'en' ? 'New Password' : 'كلمة السر الجديدة'" v-model="new_password">
+                                            <input type="text" name="building_num" id="street" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Building Number' : 'رقم المبني'" 
+                                            v-model="building">
                                         </div>
                                         <div class="form-group mb-3">
-                                            <button type="submit" class="btn btn-fill-out btn-block" name="login"  @click="resetToken(this.reset_code)">{{ lang == 'en' ? 'Reset Now !' : 'احفظ الان!' }}</button>
+                                            <input type="text" name="floor" id="street" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Floor Number' : 'رقم الشقة'" 
+                                            v-model="floor">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <textarea name="floor" id="street" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Notes' : ' ملاحطات'" 
+                                            v-model="notes">
+                                            </textarea>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <button type="submit" class="btn btn-fill-out btn-block" name="login"  @click="update()">{{ lang == 'en' ? 'Update' : 'تعديل' }}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -60,25 +76,36 @@ window.$ = $;
 import axios from 'axios';
 
 export default {
-    name: 'ResetPassView',
+    name: 'UpdateAddressView',
     data() {
         return {
-            reset_code: null,
-            new_password: null,
-            lang: 'en'
+            building: null,
+            street: null,
+            floor: null,
+            area_id: 1,
+            city_id: 1,
+            notes: null,
+            address_id: this.$route.params.id,
+            lang: "en"
         }
     },
     methods: {
-        async resetPassword(token) {
+        async update() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`${window.main_url}/resetPassword`, {
-                    new_password: this.new_password,
+                const response = await axios.put(`https://admin.becleopatra.com/api/users/addresses/update`, {
+                    building: this.building,
+                    street: this.street,
+                    floor: this.floor,
+                    notes: this.notes,
+                    area_id: this.area_id,
+                    city_id: this.city_id,
+                    address_id: this.address_id
                 },
                 {
                     headers: {
-                        "AUTHORIZATION": 'Bearer ' + token,
-                        "lang": this.lang
+                        "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                        'lang': this.lang
                     }
                 }
                 );
@@ -90,10 +117,10 @@ export default {
                     document.getElementById('errors').append(error)
                     $('#errors').fadeIn('slow')
                     setTimeout(() => {
-                        $('.loader').fadeOut()
                         $('#errors').fadeOut('slow')
-                        this.$router.push('/login')
-                    }, 3000);
+                        $('.loader').fadeOut()
+                        this.$router.push('/my-addresses');
+                    }, 2000);
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -127,31 +154,21 @@ export default {
                 console.error(error);
             }
         },
-        async resetToken(code) {
-            $('.loader').fadeIn().css('display', 'flex')
+        async get() {
             try {
-                const response = await axios.post(`${window.main_url}/createTokenResetPassword`, {
-                    email: sessionStorage.getItem("cached_email_for_reset"),
-                    reset_code: code,
-                },
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/addresses/getDetails?address_id=${this.address_id}`,
                 {
                     headers: {
-                        "lang": this.lang
+                        "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                        'lang': this.lang
                     }
                 }
                 );
                 if (response.data.status === true) {
-                    document.getElementById('errors').innerHTML = ''
-                    let error = document.createElement('div')
-                    error.classList = 'success'
-                    error.innerHTML = response.data.message
-                    document.getElementById('errors').append(error)
-                    $('#errors').fadeIn('slow')
-                    setTimeout(() => {
-                        this.resetPassword(response.data.data.token)
-                        $('.loader').fadeOut()
-                        $('#errors').fadeOut('slow')
-                    }, 3000);
+                    this.building = response.data.data.building
+                    this.street = response.data.data.street
+                    this.floor = response.data.data.floor
+                    this.notes = response.data.data.notes
                 } else {
                     $('.loader').fadeOut()
                     document.getElementById('errors').innerHTML = ''
@@ -230,6 +247,7 @@ export default {
     },
     created() {
         this.getHomeData()
+        this.get()
     },
 }
 </script>

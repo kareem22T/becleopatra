@@ -5,14 +5,14 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="page-title">
-                            <h1>Order Details</h1>
+                            <h1>{{ lang == "en" ? "Order Details" : "تفاصيل الطلب" }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Account</a></li>
-                            <li class="breadcrumb-item active">My Orders</li>
+                        <ol class="breadcrumb justify-content-md-end"  :style="lang === 'ar' ? { direction: 'ltr', justifyContent: 'start !important', display: 'flex'} : null">
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Home" : "الرئيسية" }}</a></li>
+                            <li class="breadcrumb-item"><a href="#">{{ lang == "en" ? "Account" : "الحساب" }}</a></li>
+                            <li class="breadcrumb-item active">{{ lang == "en" ? "Order Details" : "تفاصيل الطلب" }}</li>
                         </ol>
                     </div>
                 </div>
@@ -100,6 +100,7 @@
                 <p>{{ lang == 'en' ? 'This is the number you can use to pay on' : 'الرقم الي يمكنك الدفع من خلاله' }}</p>
                 <button @click="showHelpRefPopUp = false">{{ lang == 'en' ? 'OK' : 'حسنا' }}</button>
             </div>
+            <p>{{ lang == 'en' ? "To Cancel order call 01129687548" : "لالغاء الطلب اتصل ب 01129687548" }}</p>
         </div>
     </main>
 </template>

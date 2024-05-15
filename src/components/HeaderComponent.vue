@@ -143,80 +143,17 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                            <!-- <div class="lng_dropdown me-2">
-                                <div style="height: 0px; overflow: hidden; position: absolute;" class="ddOutOfVision"
-                                    id="msdrpdd20_msddHolder"><select name="countries" class="custome_select" id="msdrpdd20"
-                                        tabindex="-1">
-                                        <option value="en" data-image="/assets/images/eng.png" data-title="English">
-                                            English</option>
-                                        <option value="fn" data-image="/assets/images/fn.png" data-title="France">France
-                                        </option>
-                                        <option value="us" data-image="/assets/images/us.png" data-title="United States">
-                                            United States</option>
-                                    </select></div>
-                                <div class="dd ddcommon borderRadius" style="width: 132.917px;" id="msdrpdd20_msdd"
-                                    tabindex="0">
-                                    <div class="ddTitle borderRadiusTp"><span class="divider"></span><span
-                                            class="ddArrow arrowoff"></span><span class="ddTitleText "
-                                            id="msdrpdd20_title"><img src="/assets/images/eng.png" class="fnone"><span
-                                                class="ddlabel">English</span><span class="description"
-                                                style="display: none;"></span></span></div><input id="msdrpdd20_titleText"
-                                        type="text" autocomplete="off" class="text shadow borderRadius"
-                                        style="display: none;">
-                                    <div class="ddChild ddchild_ border shadow" id="msdrpdd20_child"
-                                        style="z-index: 9999; display: none; position: absolute; visibility: visible; height: 108px;">
-                                        <ul>
-                                            <li class="enabled _msddli_ selected" title="English"><img
-                                                    src="/assets/images/eng.png" class="fnone"><span
-                                                    class="ddlabel">English</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                            <li class="enabled _msddli_" title="France"><img src="/assets/images/fn.png"
-                                                    class="fnone"><span class="ddlabel">France</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                            <li class="enabled _msddli_" title="United States"><img
-                                                    src="/assets/images/us.png" class="fnone"><span class="ddlabel">United
-                                                    States</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="me-3">
-                                <div style="height: 0px; overflow: hidden; position: absolute;" class="ddOutOfVision"
-                                    id="msdrpdd21_msddHolder"><select name="countries" class="custome_select" id="msdrpdd21"
-                                        tabindex="-1">
-                                        <option value="USD" data-title="USD">USD</option>
-                                        <option value="EUR" data-title="EUR">EUR</option>
-                                        <option value="GBR" data-title="GBR">GBR</option>
-                                    </select></div>
-                                <div class="dd ddcommon borderRadius" style="width: 59px;" id="msdrpdd21_msdd" tabindex="0">
-                                    <div class="ddTitle borderRadiusTp"><span class="divider"></span><span
-                                            class="ddArrow arrowoff"></span><span class="ddTitleText "
-                                            id="msdrpdd21_title"><span class="ddlabel">USD</span><span class="description"
-                                                style="display: none;"></span></span></div><input id="msdrpdd21_titleText"
-                                        type="text" autocomplete="off" class="text shadow borderRadius"
-                                        style="display: none;">
-                                    <div class="ddChild ddchild_ border shadow" id="msdrpdd21_child"
-                                        style="z-index: 9999; display: none; position: absolute; visibility: visible; height: 108px;">
-                                        <ul>
-                                            <li class="enabled _msddli_ selected" title="USD"><span
-                                                    class="ddlabel">USD</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                            <li class="enabled _msddli_" title="EUR"><span class="ddlabel">EUR</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                            <li class="enabled _msddli_" title="GBR"><span class="ddlabel">GBR</span>
-                                                <div class="clear"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <ul class="contact_detail text-center text-lg-start" v-if="settings">
+                            <a href="" class="lang_mobile" style="display: flex;justify-content: center;align-items: center; gap: 5px;color: #fff; margin: 0 10px;position: relative;" @click.prevent="this.showLangMore = !this.showLangMore">
+                            <i class="fa fa-globe"></i>
+                            <span>
+                                {{ lang == 'en' ? "English" : "العربية" }}
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                            <span v-if="showLangMore" class="more_lang" style="color: rgb(11, 81, 119);display: flex;flex-direction: column;justify-content: center;align-items: center;position: absolute;top: 100%;background: white;z-index: 999;padding: 10px;margin-top: 18px;width: 100px;gap: 10px;">
+                                <span @click="lang = 'en', changeLang()">English</span>
+                                <span @click="lang = 'ar', changeLang()">العربية</span>
+                            </span>
+                        </a>                            <ul class="contact_detail text-center text-lg-start" v-if="settings">
                                 <li><i class="ti-mobile"></i><span>{{ settings.phone }}</span></li>
                             </ul>
                         </div>
@@ -224,14 +161,14 @@
                     <div class="col-md-6">
                         <div class="text-center text-md-end">
                             <ul class="header_list">
-                                <li><router-link to="/my-wishlist"><i class="ti-heart"></i><span>Wishlist</span></router-link></li>
+                                <li><router-link to="/my-wishlist"><i class="ti-heart"></i><span>{{ lang == "en" ? "Wishlist" : "المفضلة" }}</span></router-link></li>
 
                                 <li  v-if="user == null">
-                                    <router-link to="/login"><i class="ti-user"></i><span>Login</span></router-link>
+                                    <router-link to="/login"><i class="ti-user"></i><span>{{ lang == "en" ? "Login" : "تسجيل الدخول" }}</span></router-link>
                                 </li>
 
                                 <li v-if="user != null" style="position: relative;">
-                                    <a href="" @click.prevent class="account_btn"><i class="ti-user"></i><span>{{JSON.parse(user).name}}</span></a>
+                                    <a href="" @click.prevent="showMore = true" class="account_btn"><i class="ti-user"></i><span>{{JSON.parse(user).name}}</span></a>
                                     <ul class="more" style="
                                     position: absolute;
                                     top: calc(100% + 1.2rem);
@@ -248,14 +185,14 @@
                                     flex-direction: column;
                                     justify-content: center;
                                     white-space: nowrap;
-                                    display: none;
                                     border-radius: 0;
-                                    ">
-                                        <router-link to="/edit-profile" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_profile }}</router-link>
-                                        <router-link to="/my-orders" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_orders }}</router-link>
-                                        <router-link to="/my-addresses" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> My Addresses</router-link>
-                                        <router-link to="/change-password" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.change_pass }}</router-link>
-                                        <router-link to="/log-out" style="line-height: 17px;padding: .5rem 1rem;" @click.prevent="logout()"><i class="fa-solid fa-chevron-right"></i> {{ page_data.logout }}</router-link>
+                                    "
+                                    v-if="JSON.parse(user).verified && showMore">
+                                        <router-link class="lll" to="/edit-profile" @click="showMore = false" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_profile }}</router-link>
+                                        <router-link class="lll" to="/my-orders" @click="showMore = false" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.my_orders }}</router-link>
+                                        <router-link class="lll" to="/my-addresses" @click="showMore = false" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ lang == "en" ? "My Addresses" : "عناويني" }}</router-link>
+                                        <router-link class="lll" to="/change-password" @click="showMore = false" style="line-height: 17px;padding: .5rem 1rem;"><i class="fa-solid fa-chevron-right"></i> {{ page_data.change_pass }}</router-link>
+                                        <router-link class="lll" to="/log-out" @click="showMore = false" style="line-height: 17px;padding: .5rem 1rem;" @click.prevent="logout()"><i class="fa-solid fa-chevron-right"></i> {{ page_data.logout }}</router-link>
                                     </ul>
 
                                 </li>
@@ -279,24 +216,23 @@
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="dropdown">
-                                <router-link class="nav-link" to="/">Home</router-link>
+                                <router-link class="nav-link" to="/">{{ lang == "en" ? "Home" : "الرئيسية" }}</router-link>
                             </li>
                             <li class="dropdown">
-                                <a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Pages</a>
+                                <a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">{{ lang == "en" ? "Pages" : "الصفحات" }}</a>
                                 <div class="dropdown-menu">
                                     <ul>
-                                        <li><router-link class="dropdown-item nav-link nav_item" to="/about-us">About Us</router-link>
+                                        <li><router-link class="dropdown-item nav-link nav_item" to="/about-us">{{ lang == "en" ? "About Us" : "من نحن" }}</router-link>
                                         </li>
-                                        <li><router-link class="dropdown-item nav-link nav_item" to="/contact-us">Contact
-                                                Us</router-link></li>
+                                        <li><router-link class="dropdown-item nav-link nav_item" to="/contact-us">{{ lang == "en" ? "Contact Us" : "تواصل معنا" }}
+                                                </router-link></li>
                                         <!-- <li><router-link class="dropdown-item nav-link nav_item" to="/faq">Faq</router-link></li> -->
-                                        <li><router-link class="dropdown-item nav-link nav_item" to="/terms">Terms
-                                                and Conditions</router-link></li>
+                                        <li><router-link class="dropdown-item nav-link nav_item" to="/terms">{{ lang == "en" ? "Terms and Conditions" : "الأحكام والشروط" }}</router-link></li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="dropdown dropdown-mega-menu">
-                                <a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Products</a>
+                                <a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">{{ lang == "en" ? "Products" : "المنتجات" }}</a>
                                 <div class="dropdown-menu">
                                     <ul class="mega-menu d-lg-flex">
                                         <li class="mega-menu-col col-lg-3" v-for="category in categories" :key="category.id">
@@ -309,7 +245,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li><router-link class="nav-link nav_item" to="/contact-us">Contact Us</router-link></li>
+                            <li><router-link class="nav-link nav_item" to="/contact-us">{{ lang == "en" ? "Contact Us" : "تواصل معنا" }}</router-link></li>
                         </ul>
                     </div>
                     <ul class="navbar-nav attr-nav align-items-center">
@@ -336,7 +272,7 @@
         <div class="hide-content" v-if="showSearchPopUp"></div>
         <div class="pop-up search-pop-up" v-if="showSearchPopUp" style="top: calc(clamp(3.125rem, calc(1.7314rem + 5.9459vw), 6.5625rem) + 20px) !important;border-radius: 0;">
             <div class="input-search">
-                <input type="text" name="search" id="search" :placeholder="page_data.search_text" v-model="search" @keyup="getSugesstions()" @keyup.enter="goToSearch" @focus="showSuggesstion = true" @blur="showSuggesstion = false">
+                <input type="text" name="search" id="search" style="padding: .8rem 2.2rem;" :placeholder="page_data.search_text" v-model="search" @keyup="getSugesstions()" @keyup.enter="goToSearch" @focus="showSuggesstion = true" @blur="showSuggesstion = false">
                 <i class="fa fa-search" style="cursor: pointer" @click="goToSearch"></i>
                 <div class="suggestions suggestions2" v-if="results && results.length">
                     <router-link :to="item.product_type == 1 ? `/product/${item.id}` : `/card/${item.id}`" v-for="item in results.slice(0, 5)" :key="item.id" @click="showSearchPopUp = false">{{ item.name }}</router-link>
@@ -372,6 +308,7 @@ export default {
             showSuggesstion: false,
             user: null,
             search: '',
+            showMore: false,
             showSearchPopUp: false,
             cart: null,
             quantities: {},
@@ -408,7 +345,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         },
                     }
                 );
@@ -565,7 +502,7 @@ export default {
         },
         async getSugesstions() {
             try {
-                const response = await axios.get(`https://admin.becleopatra.com/api/products/getSearchProducts?search=${this.search}`,
+                const response = await axios.get(`https://admin.becleopatra.com/api/products/getSearchProducts?product_name=${this.search}`,
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
@@ -672,7 +609,7 @@ export default {
                     {
                         headers: {
                             "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
-                            "lang": "en"
+                            "lang": this.lang
                         },
                     }
                 );
