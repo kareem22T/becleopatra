@@ -91,7 +91,8 @@
         <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;"  v-if="showProdDetails && selectedProduct">
             <div class="mfp-container mfp-ajax-holder mfp-s-ready">
                 <div class="mfp-content">
-                    <div class="ajax_quick_view">
+                    <div class="hide-content" @click="showProdDetails = false"></div>
+                    <div class="ajax_quick_view"  style="z-index: 99999999999999999;">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
                                 <div class="product-image">
@@ -158,7 +159,7 @@
                                         <span>Share:</span>
                                         <ul class="social_icons">
                                             <li><a :href="`https://www.facebook.com/sharer/sharer.php?u=${this.url}/product/${selectedProduct.id}`" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                            <li><a :href="`https://twitter.com/intent/tweet?url=${this.url}/product/${selectedProduct.id}&text=${this.caption}`" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
+                                            <li><a :href="`https://twitter.com/intent/tweet?url=${this.url}/product/${selectedProduct.id}&text=${this.selectedProduct.name}`" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
                                             <li><a href="/" @click.prevent="shareOnInstagram()"><i class="fa-brands fa-instagram"></i></a></li>
                                         </ul>
                                     </div>
@@ -190,7 +191,7 @@ export default {
             showProdDetails: false,
             selectedProduct: {},
             selectedProductQty: 1,
-            
+            caption: "becleopatra",
             quantities: {},
             total: 0,
             products: null,

@@ -32,6 +32,11 @@
                                     </div>
                                     <form method="post" @submit.prevent>
                                         <div class="form-group mb-3">
+                                            <input type="text" name="name" id="name" class="form-control"
+                                            :placeholder="lang == 'en' ? 'Full Name' : 'الاسم كامل'" 
+                                            v-model="name">
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <input type="text" name="email" id="email" class="form-control"
                                             :placeholder="lang == 'en' ? 'Email' : 'الاسم كامل'" 
                                             v-model="email" disabled />
@@ -41,11 +46,20 @@
                                             :placeholder="lang == 'en' ? 'Phone' : 'الاسم كامل'" 
                                             v-model="phone" disabled >
                                         </div>
-                                        <div class="form-group mb-3">
-                                            <input type="text" name="name" id="name" class="form-control"
-                                            :placeholder="lang == 'en' ? 'Full Name' : 'الاسم كامل'" 
-                                            v-model="name">
+                                        <div class="table-responsive My Cart_table pt-2 pb-3" v-if="addresses && addresses.length > 0">
+                                            <label for="">{{ lang == "en" ? "Your Addresses" : "العناوين" }}</label>
+                                            <table class="table">
+                                                <tbody v-if="addresses && addresses.length > 0">
+                                                    <tr v-for="item in addresses" :key="item.id">
+                                                        <td class="product-price" data-title="Price">{{ item.full_address }}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody v-if="!addresses || addresses.length == 0">
+                                                    <td colspan="6" style="text-align: center;padding: 10px;">{{ lang == 'en' ? "There are no added arddresses then" : "لم يتم اضافة عناوين بعد"  }}</td>
+                                                </tbody>
+                                            </table>
                                         </div>
+
                                         <div class="form-group mb-3">
                                             <button type="submit" class="btn btn-fill-out btn-block" name="login"  @click="update(this.name)">{{ lang == 'en' ? 'Save & Update' : 'حفظ وتحديث' }}</button>
                                         </div>
@@ -79,6 +93,7 @@ export default {
             name: null,
             phone: null,
             email: null,
+            addresses: []
         }
     },
     methods: {
@@ -184,8 +199,56 @@ export default {
             }
 
         },
+        async getAddresses() {
+            $('.loader').fadeIn().css('display', 'flex')
+            try {
+                const response = await axios.get(`https://admin.becleopatra.com/api/users/addresses/getAll`,
+                    {
+                        headers: {
+                            "AUTHORIZATION": 'Bearer ' + sessionStorage.getItem('user_token'),
+                            "lang": "en"
+                        },
+                    }
+                );
+                if (response.data.status === true) {
+                    $('.loader').fadeOut()
+                    this.addresses = response.data.data
+                } else {
+                    $('.loader').fadeOut()
+                    document.getElementById('errors').innerHTML = ''
+                    $.each(response.data.errors, function (key, value) {
+                        let error = document.createElement('div')
+                        error.classList = 'error'
+                        error.innerHTML = value
+                        document.getElementById('errors').append(error)
+                    });
+                    $('#errors').fadeIn('slow')
+                    
+                    setTimeout(() => {
+                        $('input').css('outline', 'none')
+                        $('#errors').fadeOut('slow')
+                    }, 3500);
+                }
+
+            } catch (error) {
+                document.getElementById('errors').innerHTML = ''
+                let err = document.createElement('div')
+                err.classList = 'error'
+                err.innerHTML = 'server error try again later'
+                document.getElementById('errors').append(err)
+                $('#errors').fadeIn('slow')
+                $('.loader').fadeOut()
+
+                setTimeout(() => {
+                    $('#errors').fadeOut('slow')
+                }, 3500);
+
+                console.error(error);
+            }
+        },
         getHomeData() {
             this.setLangCookies()
+            this.getAddresses()
         },
     },
     mounted() {
